@@ -22,7 +22,7 @@ public class ImagemDAO {
 
             String SQL = "INSERT INTO IMAGEM (IMAGEM_1,IMAGEM_2,IMAGEM_3,IMAGEM_4) VALUES (?,?,?,?);";
 
-            PreparedStatement ps = connection.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement ps = connection.prepareStatement(SQL);
 
             ps.setString(1, imagem.getImagem1());
             ps.setString(2, imagem.getImagem2());
@@ -32,12 +32,7 @@ public class ImagemDAO {
 
             ps.execute();
             
-            ResultSet rs = ps.getGeneratedKeys();
-            
-            if(rs.next()){
-                pk_id = rs.getInt(1);
-            }
-            
+
             ps.close();
             connection.close();
 
@@ -53,7 +48,7 @@ public class ImagemDAO {
 
         try {
 
-            String SQL = "UPDATE IMAGEM SET IMAGEM_1=?,IMAGEM_2=?,IMAGEM_3=?,IMAGEM_4=? WHERE PK_IMAGEM=?";
+            String SQL = "UPDATE IMAGEM SET IMAGEM_1=?,IMAGEM_2=?,IMAGEM_3=?,IMAGEM_4=?, FK_PRODUTO=? WHERE PK_IMAGEM=?";
 
             PreparedStatement ps = connection.prepareStatement(SQL);
 
@@ -61,7 +56,8 @@ public class ImagemDAO {
             ps.setString(2, imagem.getImagem2());
             ps.setString(3, imagem.getImagem3());
             ps.setString(4, imagem.getImagem4());
-            ps.setInt(5, imagem.getPk_imagem());
+            ps.setInt(5, imagem.getFk_produto());
+            ps.setInt(6, imagem.getPk_imagem());
 
             ps.execute();
             ps.close();

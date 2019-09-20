@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Guto
  */
-@WebServlet(name = "ProdutoServlet", urlPatterns = {"/produtoSalvar","/carregarPage"})
+@WebServlet(name = "ProdutoServlet", urlPatterns = {"/produtoSalvar", "/carregarPage"})
 public class ProdutoServlet extends HttpServlet {
 
     @Override
@@ -30,20 +30,17 @@ public class ProdutoServlet extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
         String pagina = request.getRequestURI();
-        
-         try {
+
+        try {
             if (pagina.endsWith("carregarPage")) {
                 carregarPage(request, response);
-            } 
-            
+            }
+
         } catch (IOException | ServletException ex) {
             throw new ServletException(ex.getMessage());
         }
 
-        
-        
     }
-
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -51,19 +48,17 @@ public class ProdutoServlet extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
         String pagina = request.getRequestURI();
-        
-         try {
+
+        try {
             if (pagina.endsWith("produtoSalvar")) {
                 produtoSalvar(request, response);
-            }  
+            }
         } catch (IOException | ServletException ex) {
             throw new ServletException(ex.getMessage());
         }
 
-        
     }
-    
-    
+
     protected void carregarPage(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         CategoriaDAO dao = new CategoriaDAO();
@@ -82,49 +77,44 @@ public class ProdutoServlet extends HttpServlet {
         String nome = request.getParameter("nome");
         String descricao = request.getParameter("descricao");
         String breve = request.getParameter("breve");
-        String valor = request.getParameter("valor");        
+        String valor = request.getParameter("valor");
         int quantidade = Integer.parseInt(request.getParameter("qtd"));
         int categoria = Integer.parseInt(request.getParameter("categoria"));
-        int status = Integer.parseInt(request.getParameter("status")); 
-        String imagem1=request.getParameter("imagem1"); 
-        String imagem2=request.getParameter("imagem2"); 
-        String imagem3=request.getParameter("imagem3"); 
-        String imagem4=request.getParameter("imagem4"); 
-        
+        int status = Integer.parseInt(request.getParameter("status"));
+        String imagem1 = request.getParameter("imagem1");
+        String imagem2 = request.getParameter("imagem2");
+        String imagem3 = request.getParameter("imagem3");
+        String imagem4 = request.getParameter("imagem4");
+
         Produto produto = new Produto();
         Imagem imagem = new Imagem();
-        Estoque estoque = new Estoque(); 
+        Estoque estoque = new Estoque();
         ImagemDAO imagemDAO = new ImagemDAO();
         EstoqueDAO estoqueDAO = new EstoqueDAO();
         ProdutoDAO produtoDAO = new ProdutoDAO();
-        
-       imagem.setImagem1(imagem1);
-       imagem.setImagem2(imagem2);
-       imagem.setImagem3(imagem3);
-       imagem.setImagem4(imagem4);
-       
-      int pk_imagem = imagemDAO.inserir(imagem);
-      
-      int fk_estoque = estoqueDAO.inserir(estoque);
-      
-      produto.setNome_produto(nome);
-      produto.setDescricao(descricao);
-      produto.setBreveDescricao(breve);
-      produto.setValor(valor);
-      produto.setStatus(status);
-      produto.setFk_categoria(categoria);
-      produto.setFk_estoque(fk_estoque);
-      produto.setFk_imagem(pk_imagem);
-      
-      produtoDAO.salvar(produto);
-       
-       
 
-    
-     response.sendRedirect("./carregarPage");
-       
+        produto.setNome(nome);
+        produto.setDescricao(descricao);
+        produto.setBreveDescricao(breve);
+        produto.setValor(valor);
+        produto.setStatus(status);
+        produto.setFk_categoria(categoria);
+
+        int pk_produto = produtoDAO.salvar(produto);
+
+        imagem.setImagem1(imagem1);
+        imagem.setImagem2(imagem2);
+        imagem.setImagem3(imagem3);
+        imagem.setImagem4(imagem4);
+        imagem.setFk_produto(pk_produto);
+
+        estoque.setFk_produto(pk_produto);
+        estoque.setQuantidade(quantidade);
+        estoqueDAO.inserir(estoque);
+
+        response.sendRedirect("./carregarPage");
+
     }
-   
     
     
 

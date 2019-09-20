@@ -15,30 +15,37 @@ public class ProdutoDAO {
     //Chama a conexao com o banco de dados 
     Connection connection = ConnectionUtils.getConnection();
 
-    public void salvar(Produto produto) {
+    public int salvar(Produto produto) {
 
+        int pk_id=0;
         try {
-            String SQL = "INSERT INTO PRODUTO (NOME, DESCRICAO,BREVEDESCRICAO, VALOR,FK_ESTOQUE,FK_IMAGEM, FK_CATEGORIA, STATUS, TG_STATUS) VALUES (?,?,?,?,?,?,?,?,0);";
+            
+            String SQL = "INSERT INTO PRODUTO (NOME, DESCRICAO,BREVEDESCRICAO, VALOR, FK_CATEGORIA, STATUS, TG_STATUS) VALUES (?,?,?,?,?,?,0);";
 
-            PreparedStatement ps = connection.prepareStatement(SQL);
+            PreparedStatement ps = connection.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
 
-            ps.setString(1, produto.getNome_produto());
+            ps.setString(1, produto.getNome());
             ps.setString(2, produto.getDescricao());
             ps.setString(3, produto.getBreveDescricao());
             ps.setString(4, produto.getValor());
-            ps.setInt(5, produto.getFk_estoque());
-            ps.setInt(6, produto.getFk_imagem());
-            ps.setInt(7, produto.getFk_categoria());
-            ps.setInt(8, produto.getStatus());
+            ps.setInt(5, produto.getFk_categoria());
+            ps.setInt(6, produto.getStatus());
 
             ps.execute();
+            
+            ResultSet rs = ps.getGeneratedKeys();
+            
+            if(rs.next()){
+                pk_id = rs.getInt(1);
+            }
+            
             ps.close();
             connection.close();
 
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }
-
+        return pk_id;
     }
 
     public List<Produto> buscarTodos() {
@@ -56,11 +63,9 @@ public class ProdutoDAO {
 
                 Produto produto = new Produto();
                 produto.setPk_produto(rs.getInt("PK_PRODUTO"));
-                produto.setNome_produto(rs.getString("NOME"));
+                produto.setNome(rs.getString("NOME"));
                 produto.setValor(rs.getString("VALOR"));
                 produto.setFk_categoria(rs.getInt("FK_CATEGORIA"));
-                produto.setFk_estoque(rs.getInt("FK_ESTOQUE"));
-                produto.setFk_imagem(rs.getInt("FK_IMAGEM"));
                 produto.setStatus(rs.getInt("STATUS"));
 
                 produtos.add(produto);
@@ -90,11 +95,9 @@ public class ProdutoDAO {
 
                 Produto produto = new Produto();
                 produto.setPk_produto(rs.getInt("PK_PRODUTO"));
-                produto.setNome_produto(rs.getString("NOME"));
+                produto.setNome(rs.getString("NOME"));
                 produto.setValor(rs.getString("VALOR"));
                 produto.setFk_categoria(rs.getInt("FK_CATEGORIA"));
-                produto.setFk_estoque(rs.getInt("FK_ESTOQUE"));
-                produto.setFk_imagem(rs.getInt("FK_IMAGEM"));
                 produto.setStatus(rs.getInt("STATUS"));
 
                 produtos.add(produto);
@@ -137,7 +140,7 @@ public class ProdutoDAO {
 
             PreparedStatement ps = connection.prepareStatement(SQL);
 
-            ps.setString(1, produto.getNome_produto());
+            ps.setString(1, produto.getNome());
             ps.setString(2, produto.getDescricao());
             ps.setString(3, produto.getBreveDescricao());
             ps.setString(4, produto.getValor());
