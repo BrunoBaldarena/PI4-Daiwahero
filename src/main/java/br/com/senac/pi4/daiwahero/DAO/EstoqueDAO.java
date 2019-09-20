@@ -4,7 +4,10 @@ import br.com.senac.pi4.daiwahero.model.Estoque;
 import br.com.senac.pi4.daiwahero.utils.ConnectionUtils;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 
 public class EstoqueDAO {
 
@@ -54,4 +57,57 @@ public class EstoqueDAO {
             throw new RuntimeException(ex);
         }
     }
+    
+     public ArrayList<Estoque> listarID(int id) {
+        String SQL = "SELECT * FROM ESTOQUE WHERE FK_PRODUTO = " + id + ";";
+        ArrayList<Estoque> lista = new ArrayList<>();
+        
+        try {
+
+            Statement st = connection.createStatement();
+            ResultSet rs = st.executeQuery(SQL);
+
+            while (rs.next()) {
+                Estoque estoque = new Estoque();
+                estoque.setQuantidade(rs.getInt("QUANTIDADE"));
+                lista.add(estoque);
+
+            }
+            st.close();
+            connection.close();
+            rs.close();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return lista;
+    }
+     
+     public ArrayList<Estoque> listarTudo() {
+        String SQL = "SELECT * FROM ESTOQUE";
+        
+        
+        ArrayList<Estoque> lista = new ArrayList<>();
+        
+        try {
+
+            Statement st = connection.createStatement();
+            ResultSet rs = st.executeQuery(SQL);
+
+            while (rs.next()) {
+                Estoque estoque = new Estoque();
+                estoque.setQuantidade(rs.getInt("QUANTIDADE"));
+                lista.add(estoque);
+
+            }
+            st.close();
+            connection.close();
+            rs.close();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return lista;
+    }
+    
 }

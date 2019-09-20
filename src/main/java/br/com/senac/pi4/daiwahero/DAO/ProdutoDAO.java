@@ -1,5 +1,6 @@
 package br.com.senac.pi4.daiwahero.DAO;
 
+import br.com.senac.pi4.daiwahero.model.Categoria;
 import br.com.senac.pi4.daiwahero.model.Produto;
 import br.com.senac.pi4.daiwahero.utils.ConnectionUtils;
 import java.sql.Connection;
@@ -48,13 +49,16 @@ public class ProdutoDAO {
         return pk_id;
     }
 
-    public List<Produto> buscarTodos() {
+    public ArrayList<Produto> buscarTodos() {
 
-        List<Produto> produtos = new ArrayList<>();
+        ArrayList<Produto> produtos = new ArrayList<>();
 
         try {
 
-            String SQL = "SELECT * FROM PRODUTO WHERE TG_STATUS=0";
+            String SQL = "SELECT P.PK_PRODUTO, P.NOME, P.VALOR, P.STATUS, C.NOME,"
+                    + " E.QUANTIDADE FROM ESTOQUE AS E INNER JOIN CATEGORIA AS C "
+                    + "INNER JOIN PRODUTO AS P ON P.PK_PRODUTO = E.PK_ESTOQUE"
+                    + " AND P.FK_CATEGORIA = C.PK_CATEGORIA WHERE P.TG_STATUS = 0";
 
             Statement st = connection.createStatement();
             ResultSet rs = st.executeQuery(SQL);
@@ -62,11 +66,13 @@ public class ProdutoDAO {
             while (rs.next()) {
 
                 Produto produto = new Produto();
-                produto.setPk_produto(rs.getInt("PK_PRODUTO"));
-                produto.setNome(rs.getString("NOME"));
-                produto.setValor(rs.getString("VALOR"));
-                produto.setFk_categoria(rs.getInt("FK_CATEGORIA"));
-                produto.setStatus(rs.getInt("STATUS"));
+                
+                produto.setPk_produto(rs.getInt("P.PK_PRODUTO"));
+                produto.setNome(rs.getString("P.NOME"));
+                produto.setValor(rs.getString("P.VALOR"));               
+                produto.setNome_categoria(rs.getString("C.NOME"));
+                produto.setQuantidade_estoque(rs.getInt("E.QUANTIDADE"));
+                produto.setStatus(rs.getInt("P.STATUS"));
 
                 produtos.add(produto);
             }

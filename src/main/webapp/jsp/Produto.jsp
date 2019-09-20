@@ -32,6 +32,8 @@
 
 
             <button type="submit">Salvar</button>
+            
+            <a href="${pageContext.request.contextPath}/produtoConsultar">COnsulta</a>
 
         </form>
 

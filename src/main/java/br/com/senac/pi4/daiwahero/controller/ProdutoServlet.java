@@ -10,6 +10,8 @@ import br.com.senac.pi4.daiwahero.model.Imagem;
 import br.com.senac.pi4.daiwahero.model.Produto;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Guto
  */
-@WebServlet(name = "ProdutoServlet", urlPatterns = {"/produtoSalvar", "/carregarPage"})
+@WebServlet(name = "ProdutoServlet", urlPatterns = {"/produtoSalvar", "/carregarPage", "/produtoConsultar"})
 public class ProdutoServlet extends HttpServlet {
 
     @Override
@@ -34,6 +36,9 @@ public class ProdutoServlet extends HttpServlet {
         try {
             if (pagina.endsWith("carregarPage")) {
                 carregarPage(request, response);
+            }else if(pagina.endsWith("produtoConsultar")){
+                produtoConsultar(request, response);
+                
             }
 
         } catch (IOException | ServletException ex) {
@@ -116,6 +121,46 @@ public class ProdutoServlet extends HttpServlet {
 
     }
     
+     protected void produtoConsultar(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        ProdutoDAO produtoDAO = new ProdutoDAO();
+        
+        EstoqueDAO estoqueDAO = new EstoqueDAO();
+        
+        ArrayList<Produto> produto = produtoDAO.buscarTodos();
+
+        
+
+        RequestDispatcher rd = request.getRequestDispatcher("./jsp/ConsultaProduto.jsp");
+        request.setAttribute("produto", produto);    
+        rd.forward(request, response);
+
+    }
+     
+      protected void categoriaInativar(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        try {
+            int cod = Integer.parseInt(request.getParameter("cod"));
+            
+            Produto produto = new Produto();
+            
+            produto.setPk_produto(cod);
+            
+            ProdutoDAO dao = new ProdutoDAO();
+            
+            dao.inativar(produto);
+            response.sendRedirect("./produtoConsultar");
+        } catch (Exception ex) {
+            Logger.getLogger(CategoriaServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+      
+      
+}
+    
+     
     
 
-}
+

@@ -8,12 +8,14 @@ public class Produto{
     private String breveDescricao;
     private int status;
     private int fk_categoria;
+    private String nome_categoria;
+    private int quantidade_estoque;
     
    public Produto(){
         
     }
 
-    public Produto(int pk_produto, String nome, String valor, String descricao, String breveDescricao, int status, int fk_categoria) {
+    public Produto(int pk_produto, String nome, String valor, String descricao, String breveDescricao, int status, int fk_categoria, String nome_categoria, int quantidade_estoque) {
         this.pk_produto = pk_produto;
         this.nome = nome;
         this.valor = valor;
@@ -21,7 +23,29 @@ public class Produto{
         this.breveDescricao = breveDescricao;
         this.status = status;
         this.fk_categoria = fk_categoria;
+        this.nome_categoria = nome_categoria;
+        this.quantidade_estoque = quantidade_estoque;
     }
+   
+   
+
+    public String getNome_categoria() {
+        return nome_categoria;
+    }
+
+    public void setNome_categoria(String nome_categoria) {
+        this.nome_categoria = nome_categoria;
+    }
+
+    public int getQuantidade_estoque() {
+        return quantidade_estoque;
+    }
+
+    public void setQuantidade_estoque(int quantidade_estoque) {
+        this.quantidade_estoque = quantidade_estoque;
+    }
+
+  
    
    
 
