@@ -37,7 +37,7 @@ public class CategoriaDAO {
     //Metodo que busca todos os dados da categoria e adiciona em uma lista
     public ArrayList<Categoria> listarTudo() {
         String SQL = "SELECT * FROM CATEGORIA WHERE TG_STATUS=0";
-        ArrayList<Categoria> lista = new ArrayList<Categoria>();
+        ArrayList<Categoria> lista = new ArrayList<>();
         try {
 
             Statement st = connection.createStatement();
