@@ -23,13 +23,12 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Guto
  */
-@WebServlet(name = "ProdutoServlet", urlPatterns = {"/produtoSalvar", "/carregarPage", "/produtoConsultar"})
+@WebServlet(name = "ProdutoServlet", urlPatterns = {"/produtoSalvar", "/carregarPage", "/produtoConsultar", "/teste"})
 public class ProdutoServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
         String pagina = request.getRequestURI();
 
@@ -63,6 +62,8 @@ public class ProdutoServlet extends HttpServlet {
         }
 
     }
+    
+    
 
     protected void carregarPage(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
