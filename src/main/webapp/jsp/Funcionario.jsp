@@ -13,7 +13,7 @@
     </head>
     <body>
 
-        <form action="${pageContext.request.contextPath}/funcionarioSalvar" method="post">
+        <form action="${pageContext.request.contextPath}/FuncionarioServletSalvar" method="post">
             <labe>Nome:</labe><br>
             <input type="text" name="nome" ><br><br>
 
@@ -57,7 +57,9 @@
             <select name="cargo" placeholder="Qual?">
                 <option>Administrador</option>  
                 <option>Auxiliar</option>  
-            </select>
+            </select><br><br>
+            
+            <button type="submit">Salvar</button>
         </form>
     </body>
 </html>

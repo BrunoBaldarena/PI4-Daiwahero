@@ -1,62 +1,35 @@
 package br.com.senac.pi4.daiwahero.controller;
 
-import br.com.senac.pi4.daiwahero.DAO.CategoriaDAO;
 import br.com.senac.pi4.daiwahero.DAO.FuncionarioDAO;
-import br.com.senac.pi4.daiwahero.model.Categoria;
 import br.com.senac.pi4.daiwahero.model.Funcionario;
 import java.io.IOException;
+import java.util.Date;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.sql.Date;
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-@WebServlet(name = "FuncionarioServlet", urlPatterns = {"/funcionarioSalvar"})
-public class FuncionarioServlet extends HttpServlet {
+@WebServlet(name = "FuncionarioServletSalvar", urlPatterns = {"/FuncionarioServletSalvar"})
+public class FuncionarioServletSalvar extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setCharacterEncoding("UTF-8");
-        String pagina = request.getRequestURI();
 
+        RequestDispatcher dispatcher
+                = request.getRequestDispatcher("Funcionario.jsp");
+        dispatcher.forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.setCharacterEncoding("UTF-8");
-        String pagina = request.getRequestURI();
-
-        try {
-            if (pagina.endsWith("funcionarioSalvar")) {
-                funcionarioSalvar(request, response);
-            }
-        } catch (IOException | ServletException ex) {
-            throw new ServletException(ex.getMessage());
-        } catch (ParseException ex) {
-            Logger.getLogger(FuncionarioServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    protected void carregarPageFuncionario(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-
-        RequestDispatcher rd = request.getRequestDispatcher("./jsp/Funcionario.jsp");
-        rd.forward(request, response);
-
-    }
-
-    protected void funcionarioSalvar(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, ParseException {
-
         String nome = request.getParameter("nome");
         String cpf = request.getParameter("cpf");
         String email = request.getParameter("email");
@@ -76,7 +49,12 @@ public class FuncionarioServlet extends HttpServlet {
         FuncionarioDAO dao = new FuncionarioDAO();
         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
 
-        Date data = (Date) formato.parse(dataNasc);
+        Date data = null;
+        try {
+            data =  formato.parse(dataNasc);
+        } catch (ParseException ex) {
+            Logger.getLogger(FuncionarioServletSalvar.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         funcionario.setNome(nome);
         funcionario.setCpf(cpf);
@@ -95,7 +73,9 @@ public class FuncionarioServlet extends HttpServlet {
 
         int pk_funcionario = dao.salvar(funcionario);
 
-        response.sendRedirect("./funcionarioSalvar");
-
+        RequestDispatcher dispatcher
+                = request.getRequestDispatcher("./jsp/Funcionario.jsp");
+        dispatcher.forward(request, response);
     }
+
 }

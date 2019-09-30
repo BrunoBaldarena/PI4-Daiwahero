@@ -1,6 +1,6 @@
 package br.com.senac.pi4.daiwahero.model;
 
-import java.sql.Date;
+import java.util.Date;
 
 public abstract class Pessoa extends Endereco {
 

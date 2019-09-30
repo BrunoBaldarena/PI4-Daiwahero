@@ -3,14 +3,14 @@ package br.com.senac.pi4.daiwahero.model;
 public class Funcionario extends Pessoa {
 
     private String Cargo;
-    private boolean habilitado;
+    private int habilitado;
 
     public Funcionario()
     {
         
     }
     
-    public Funcionario(String Cargo, boolean habilitado)
+    public Funcionario(String Cargo, int habilitado)
     {
         this.Cargo = Cargo;
         this.habilitado = habilitado;
@@ -24,11 +24,11 @@ public class Funcionario extends Pessoa {
         this.Cargo = Cargo;
     }
 
-    public boolean isHabilitado() {
+    public int getHabilitado() {
         return habilitado;
     }
 
-    public void setHabilitado(boolean habilitado) {
+    public void setHabilitado(int habilitado) {
         this.habilitado = habilitado;
     }
 }
