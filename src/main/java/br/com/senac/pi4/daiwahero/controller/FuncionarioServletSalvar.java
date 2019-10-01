@@ -23,7 +23,7 @@ public class FuncionarioServletSalvar extends HttpServlet {
             throws ServletException, IOException {
 
         RequestDispatcher dispatcher
-                = request.getRequestDispatcher("Funcionario.jsp");
+                = request.getRequestDispatcher("./jsp/CadastroFuncionario.jsp");
         dispatcher.forward(request, response);
     }
 
@@ -34,7 +34,7 @@ public class FuncionarioServletSalvar extends HttpServlet {
         String cpf = request.getParameter("cpf");
         String email = request.getParameter("email");
         String senha = request.getParameter("senha");
-        String genero = request.getParameter("genero");
+        String genero = request.getParameter("sexo");
         String telefone = request.getParameter("telefone");
         String dataNasc = request.getParameter("dataNasc");
         String endereco = request.getParameter("endereco");
@@ -44,6 +44,7 @@ public class FuncionarioServletSalvar extends HttpServlet {
         String complemento = request.getParameter("complemento");
         String numero = request.getParameter("numero");
         String cargo = request.getParameter("cargo");
+        String habilitado = request.getParameter("habilitado");
 
         Funcionario funcionario = new Funcionario();
         FuncionarioDAO dao = new FuncionarioDAO();

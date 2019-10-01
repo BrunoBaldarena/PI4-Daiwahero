@@ -2,7 +2,7 @@ package br.com.senac.pi4.daiwahero.model;
 
 import java.util.Date;
 
-public abstract class Pessoa extends Endereco {
+public class Pessoa extends Endereco {
 
     private int id;
     private String nome;
