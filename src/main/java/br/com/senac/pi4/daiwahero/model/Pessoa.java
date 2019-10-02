@@ -12,6 +12,7 @@ public class Pessoa extends Endereco {
     private String cpf;
     private String telefone;
     private Date dataNasc;
+    private int tgStatus;
 
     public Pessoa() {
 
@@ -100,6 +101,14 @@ public class Pessoa extends Endereco {
 
     public void setDataNasc(Date dataNasc) {
         this.dataNasc = dataNasc;
+    }
+
+    public int getTgStatus() {
+        return tgStatus;
+    }
+
+    public void setTgStatus(int tgStatus) {
+        this.tgStatus = tgStatus;
     }
 
 }

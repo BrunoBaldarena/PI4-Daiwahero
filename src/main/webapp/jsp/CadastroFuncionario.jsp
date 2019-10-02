@@ -29,13 +29,14 @@
         <meta name="author" content="">
 
 
-
+        <link href="<c:url value="assets/css/bootstrap.min.css"/>" rel="stylesheet">
         <!-- Custom fonts for this template-->
         <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
         <!-- Custom styles for this template-->
-        <link href="css/sb-admin-2.min.css" rel="stylesheet">
+
+        <link href="<c:url value="./jsp/css/sb-admin-2.min.css"/>" rel="stylesheet">
 
         <style>
             body {
@@ -360,8 +361,15 @@
 
                     <!-- Page Content -->
 
-                    <div class="container" style="margin-top: 7%;">
+                    <div class="container" style="margin-top: 5%;">
 
+
+                        <div class="alert" role="alert">
+                            ${msg}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div><br><br>
                         <div class="col-md-11 control-label" style="margin-top: -10px;">
                             <p class="help-block"><h11>*</h11> Campo Obrigatório </p>
                         </div>
@@ -458,21 +466,21 @@
                                         <div class="col-sm-3">
                                             <div class="form-group">
                                                 <label for="endereco">Endereço: <h11>*</h11></label>
-                                                <input nome="endereco" id="endereco" type="text" class="form-control" />
+                                                <input type="text" id="endereco" name="endereco"class="form-control" >
                                             </div>
                                         </div>
 
                                         <div class="col-sm-3">
                                             <div class="form-group">
                                                 <label for="bairro">Bairro: <h11>*</h11></label>
-                                                <input nome="bairro" id="bairro"  type="text" class="form-control" />
+                                                <input type="text" id="bairro" name="bairro" class="form-control">
                                             </div>
                                         </div>
 
                                         <div class="col-sm-3">
                                             <div class="form-group">
                                                 <label for="cidade">Cidade: <h11>*</h11></label>
-                                                <input nome="cidade" id="cidade"  type="text" class="form-control" />
+                                                <input type="text" name="cidade" id="cidade" class="form-control" >
                                             </div>
                                         </div>
 
@@ -480,7 +488,7 @@
                                         <div class="col-sm-3">
                                             <div class="form-group" style="padding-right: 50%">
                                                 <label for="input-produto-categoria">UF <h11>*</h11></label>
-                                                <select nome="uf" id="uf" class="form-control" placeholder="Qual?" >
+                                                <select name="uf" id="uf" class="form-control" placeholder="Qual?" >
                                                     <option>RO</option>
                                                     <option>AC</option>
                                                     <option>AM</option>
@@ -515,14 +523,14 @@
                                         <div class="col-sm-3">
                                             <div class="form-group">
                                                 <label for="complemento">Complemento: </label>
-                                                <input nome="complemento" id="complemento" type="text" class="form-control" style="  width: 60%; height: 60%" />
+                                                <input type="text" name="complemento" id="complemento" class="form-control" style="  width: 60%; height: 60%">
                                             </div>
                                         </div>
 
                                         <div class="col-sm-3">
                                             <div class="form-group">
                                                 <label for="numero" >N°: <h11>*</h11></label>
-                                                <input nome="numero" id="numero" type="text" class="form-control" style="  width: 30%; height: 30% " />
+                                                <input type="text" name="numero" id="numero" class="form-control" style="  width: 30%; height: 30% ">
                                             </div>
                                         </div>
 
@@ -530,11 +538,14 @@
                                         <div class="col-sm-3">
                                             <div class="form-group">
                                                 <label for="cargo" style="right: 50px;">Cargo: <h11>*</h11></label>
-                                                <input nome="cargo" id="cargo" type="text" class="form-control" style="padding-left: 50px;" />
+                                                 <select name="cargo" id="cargo" class="form-control" placeholder="Qual?" style="padding-left: 50px;">
+                                                    <option>Administrador</option>
+                                                    <option>Auxiliar</option>
+                                                    <option>Estagiário</option>
+                                                    <option>Aprendiz</option>>
+                                                </select>
                                             </div>
                                         </div>
-
-
 
                                         <label style="margin-top: 3.5%; padding-left: 15px; left: 50px;">Desabilitado</label>
                                         <div class="toggle" style="margin-top: 3.5%; padding-left: 10px">

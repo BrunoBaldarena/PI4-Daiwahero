@@ -26,8 +26,8 @@ public class FuncionarioDAO {
 
             String SQL = "INSERT INTO FUNCIONARIO (NOME, CPF, EMAIL, SENHA, "
                     + "GENERO, TELEFONE, DATANASC, ENDERECO, BAIRRO, CIDADE, UF,"
-                    + "COMPLEMENTO, NUMERO, CARGO, HABILITADO)"
-                    + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,1);";
+                    + "COMPLEMENTO, NUMERO, CARGO, STATUS, TG_STATUS)"
+                    + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,1);";
 
             try (PreparedStatement ps = connection.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS)) {
                 ps.setString(1, funcionario.getNome());
@@ -44,6 +44,7 @@ public class FuncionarioDAO {
                 ps.setString(12, funcionario.getComplemento());
                 ps.setString(13, funcionario.getNumero());
                 ps.setString(14, funcionario.getCargo());
+                ps.setInt(15, funcionario.getHabilitado());
                 ps.execute();
 
                 ResultSet rs = ps.getGeneratedKeys();
@@ -66,7 +67,7 @@ public class FuncionarioDAO {
 
         try {
 
-            String SQL = "SELECT * FROM FUNCIONARIO WHERE HABILITADO = 1";
+            String SQL = "SELECT * FROM FUNCIONARIO WHERE TG_STATUS = 1";
 
             Statement st = connection.createStatement();
             ResultSet rs = st.executeQuery(SQL);
@@ -90,7 +91,8 @@ public class FuncionarioDAO {
                 funcionario.setComplemento(rs.getString("COMPLEMENTO"));
                 funcionario.setNumero(rs.getString("NUMERO"));
                 funcionario.setCargo(rs.getString("CARGO"));
-                funcionario.setHabilitado(rs.getInt("HABILITADO"));
+                funcionario.setHabilitado(rs.getInt("STATUS"));
+                funcionario.setTgStatus(rs.getInt("TG_STATUS"));
 
                 funcionarios.add(funcionario);
             }
@@ -112,7 +114,7 @@ public class FuncionarioDAO {
         boolean resultado = true;
         try {
 
-            String SQL = "UPDATE FUNCIONARIO SET NOME = ?, CPF = ?, SENHA = ?, GENERO = ?, TELEFONE = ?, DATANASC = ?, ENDERECO = ?, BAIRRO = ?, CIDADE = ?, UF = ?, COMPLEMENTO = ?, NUMERO = ?, CARGO = ? WHERE PK_FUNCIONARIO = ?";
+            String SQL = "UPDATE FUNCIONARIO SET NOME = ?, CPF = ?, SENHA = ?, GENERO = ?, TELEFONE = ?, DATANASC = ?, ENDERECO = ?, BAIRRO = ?, CIDADE = ?, UF = ?, COMPLEMENTO = ?, NUMERO = ?, CARGO = ?, STATUS = ? WHERE PK_FUNCIONARIO = ?";
 
             PreparedStatement ps = connection.prepareStatement(SQL);
 
@@ -129,7 +131,8 @@ public class FuncionarioDAO {
             ps.setString(11, funcionario.getComplemento());
             ps.setString(12, funcionario.getNumero());
             ps.setString(13, funcionario.getCargo());
-            ps.setInt(14, funcionario.getId());
+            ps.setInt(14, funcionario.getHabilitado());
+            ps.setInt(15, funcionario.getId());
 
             ps.execute();
             ps.close();
@@ -171,6 +174,7 @@ public class FuncionarioDAO {
                 funcionario.setComplemento(rs.getString("COMPLEMENTO"));
                 funcionario.setNumero(rs.getString("NUMERO"));
                 funcionario.setCargo(rs.getString("CARGO"));
+                funcionario.setHabilitado(rs.getInt("STATUS"));
 
             }
             st.close();
@@ -189,7 +193,7 @@ public class FuncionarioDAO {
 
         boolean resultado = true;
         try {
-            String sql = "UPDATE FUNCIONARIO SET HABILITADO = 0 WHERE PK_FUNCIONARIO = ?";
+            String sql = "UPDATE FUNCIONARIO SET TG_STATUS = 0 WHERE PK_FUNCIONARIO = ?";
 
             PreparedStatement pst = connection.prepareStatement(sql);
             pst.setInt(1, id);

@@ -46,13 +46,18 @@ public class FuncionarioServletSalvar extends HttpServlet {
         String cargo = request.getParameter("cargo");
         String habilitado = request.getParameter("habilitado");
 
+        int status = 0;
+        if ("on".equals(habilitado)) {
+            status = 1;
+        }
+  
         Funcionario funcionario = new Funcionario();
         FuncionarioDAO dao = new FuncionarioDAO();
         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
 
         Date data = null;
         try {
-            data =  formato.parse(dataNasc);
+            data = formato.parse(dataNasc);
         } catch (ParseException ex) {
             Logger.getLogger(FuncionarioServletSalvar.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -71,11 +76,22 @@ public class FuncionarioServletSalvar extends HttpServlet {
         funcionario.setComplemento(complemento);
         funcionario.setNumero(numero);
         funcionario.setCargo(cargo);
+        funcionario.setHabilitado(status);
 
         int pk_funcionario = dao.salvar(funcionario);
 
+        String msg;
+        
+        if (pk_funcionario != 0) {
+            msg = "Funcionário cadastrado com sucesso!";
+        } else {
+            msg = "Erro ao cadastrar o funcionário. Tente novamente!";
+        }
+
+        request.setAttribute("msg", msg);
+
         RequestDispatcher dispatcher
-                = request.getRequestDispatcher("./jsp/Funcionario.jsp");
+                = request.getRequestDispatcher("./jsp/CadastroFuncionario.jsp");
         dispatcher.forward(request, response);
     }
 
