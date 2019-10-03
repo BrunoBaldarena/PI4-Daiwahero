@@ -2,19 +2,21 @@ package br.com.senac.pi4.daiwahero.model;
 
 public abstract class Endereco {
 
+    private String cep;
     private String endereco;
     private String bairro;
     private String cidade;
     private String uf;
     private String complemento;
     private String numero;
-
+    
     public Endereco() {
 
     }
 
-    public Endereco(String endereco, String bairro, String cidade, String uf, String complemento, String numero)
+    public Endereco(String cep, String endereco, String bairro, String cidade, String uf, String complemento, String numero)
     {
+        this.cep = cep;
         this.endereco = endereco;
         this.bairro = bairro;
         this.cidade = cidade;
@@ -69,6 +71,20 @@ public abstract class Endereco {
 
     public void setNumero(String numero) {
         this.numero = numero;
+    }
+
+    /**
+     * @return the cep
+     */
+    public String getCep() {
+        return cep;
+    }
+
+    /**
+     * @param cep the cep to set
+     */
+    public void setCep(String cep) {
+        this.cep = cep;
     }
 
 }

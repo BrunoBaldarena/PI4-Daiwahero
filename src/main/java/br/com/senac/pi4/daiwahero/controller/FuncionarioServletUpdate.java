@@ -29,6 +29,8 @@ public class FuncionarioServletUpdate extends HttpServlet {
         FuncionarioDAO dao = new FuncionarioDAO();
         Funcionario funcionario = dao.buscarID(Integer.parseInt(id));
 
+        String dataNasc = funcionario.getDataNasc().toString();
+        request.setAttribute("dataNasc", dataNasc.replace("-", "/"));
         request.setAttribute("funcionario", funcionario);
 
         RequestDispatcher destino = request.getRequestDispatcher("./jsp/FuncionarioUpdate.jsp");
@@ -48,6 +50,7 @@ public class FuncionarioServletUpdate extends HttpServlet {
         String genero = request.getParameter("genero");
         String telefone = request.getParameter("telefone");
         String dataNasc = request.getParameter("dataNasc");
+        String cep = request.getParameter("cep");
         String endereco = request.getParameter("endereco");
         String bairro = request.getParameter("bairro");
         String cidade = request.getParameter("cidade");
@@ -75,6 +78,7 @@ public class FuncionarioServletUpdate extends HttpServlet {
         funcionario.setGenero(genero);
         funcionario.setTelefone(telefone);
         funcionario.setDataNasc(data);
+        funcionario.setCep(cep);
         funcionario.setEndereco(endereco);
         funcionario.setBairro(bairro);
         funcionario.setCidade(cidade);

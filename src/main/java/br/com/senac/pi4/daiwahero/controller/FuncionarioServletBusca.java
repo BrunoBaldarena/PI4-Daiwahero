@@ -36,7 +36,6 @@ public class FuncionarioServletBusca extends HttpServlet {
         FuncionarioDAO dao = new FuncionarioDAO();
         List<Funcionario> funcionario = dao.buscarTodos();
         
-        
         request.setAttribute("funcionario", funcionario);
         RequestDispatcher dispatcher
                 = request.getRequestDispatcher("./jsp/ConsultaFuncionario.jsp");

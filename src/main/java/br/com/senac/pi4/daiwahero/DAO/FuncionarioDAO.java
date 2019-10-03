@@ -25,9 +25,9 @@ public class FuncionarioDAO {
         try {
 
             String SQL = "INSERT INTO FUNCIONARIO (NOME, CPF, EMAIL, SENHA, "
-                    + "GENERO, TELEFONE, DATANASC, ENDERECO, BAIRRO, CIDADE, UF,"
+                    + "GENERO, TELEFONE, DATANASC, CEP, ENDERECO, BAIRRO, CIDADE, UF,"
                     + "COMPLEMENTO, NUMERO, CARGO, STATUS, TG_STATUS)"
-                    + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,1);";
+                    + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,1);";
 
             try (PreparedStatement ps = connection.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS)) {
                 ps.setString(1, funcionario.getNome());
@@ -37,14 +37,15 @@ public class FuncionarioDAO {
                 ps.setString(5, funcionario.getGenero());
                 ps.setString(6, funcionario.getTelefone());
                 ps.setDate(7, dataSql);
-                ps.setString(8, funcionario.getEndereco());
-                ps.setString(9, funcionario.getBairro());
-                ps.setString(10, funcionario.getCidade());
-                ps.setString(11, funcionario.getUf());
-                ps.setString(12, funcionario.getComplemento());
-                ps.setString(13, funcionario.getNumero());
-                ps.setString(14, funcionario.getCargo());
-                ps.setInt(15, funcionario.getHabilitado());
+                ps.setString(8, funcionario.getCep());
+                ps.setString(9, funcionario.getEndereco());
+                ps.setString(10, funcionario.getBairro());
+                ps.setString(11, funcionario.getCidade());
+                ps.setString(12, funcionario.getUf());
+                ps.setString(13, funcionario.getComplemento());
+                ps.setString(14, funcionario.getNumero());
+                ps.setString(15, funcionario.getCargo());
+                ps.setInt(16, funcionario.getHabilitado());
                 ps.execute();
 
                 ResultSet rs = ps.getGeneratedKeys();
@@ -84,6 +85,7 @@ public class FuncionarioDAO {
                 funcionario.setGenero(rs.getString("GENERO"));
                 funcionario.setTelefone(rs.getString("TELEFONE"));
                 funcionario.setDataNasc(rs.getDate("DATANASC"));
+                funcionario.setCep(rs.getString("CEP"));
                 funcionario.setEndereco(rs.getString("ENDERECO"));
                 funcionario.setBairro(rs.getString("BAIRRO"));
                 funcionario.setCidade(rs.getString("CIDADE"));
@@ -114,7 +116,7 @@ public class FuncionarioDAO {
         boolean resultado = true;
         try {
 
-            String SQL = "UPDATE FUNCIONARIO SET NOME = ?, CPF = ?, SENHA = ?, GENERO = ?, TELEFONE = ?, DATANASC = ?, ENDERECO = ?, BAIRRO = ?, CIDADE = ?, UF = ?, COMPLEMENTO = ?, NUMERO = ?, CARGO = ?, STATUS = ? WHERE PK_FUNCIONARIO = ?";
+            String SQL = "UPDATE FUNCIONARIO SET NOME = ?, CPF = ?, SENHA = ?, GENERO = ?, TELEFONE = ?, DATANASC = ?, CEP = ?,  ENDERECO = ?, BAIRRO = ?, CIDADE = ?, UF = ?, COMPLEMENTO = ?, NUMERO = ?, CARGO = ?, STATUS = ? WHERE PK_FUNCIONARIO = ?";
 
             PreparedStatement ps = connection.prepareStatement(SQL);
 
@@ -124,15 +126,16 @@ public class FuncionarioDAO {
             ps.setString(4, funcionario.getGenero());
             ps.setString(5, funcionario.getTelefone());
             ps.setDate(6, dataSql);
-            ps.setString(7, funcionario.getEndereco());
-            ps.setString(8, funcionario.getBairro());
-            ps.setString(9, funcionario.getCidade());
-            ps.setString(10, funcionario.getUf());
-            ps.setString(11, funcionario.getComplemento());
-            ps.setString(12, funcionario.getNumero());
-            ps.setString(13, funcionario.getCargo());
-            ps.setInt(14, funcionario.getHabilitado());
-            ps.setInt(15, funcionario.getId());
+            ps.setString(7, funcionario.getCep());
+            ps.setString(8, funcionario.getEndereco());
+            ps.setString(9, funcionario.getBairro());
+            ps.setString(10, funcionario.getCidade());
+            ps.setString(11, funcionario.getUf());
+            ps.setString(12, funcionario.getComplemento());
+            ps.setString(13, funcionario.getNumero());
+            ps.setString(14, funcionario.getCargo());
+            ps.setInt(15, funcionario.getHabilitado());
+            ps.setInt(16, funcionario.getId());
 
             ps.execute();
             ps.close();
@@ -167,6 +170,7 @@ public class FuncionarioDAO {
                 funcionario.setGenero(rs.getString("GENERO"));
                 funcionario.setTelefone(rs.getString("TELEFONE"));
                 funcionario.setDataNasc(rs.getDate("DATANASC"));
+                funcionario.setCep(rs.getString("CEP"));
                 funcionario.setEndereco(rs.getString("ENDERECO"));
                 funcionario.setBairro(rs.getString("BAIRRO"));
                 funcionario.setCidade(rs.getString("CIDADE"));

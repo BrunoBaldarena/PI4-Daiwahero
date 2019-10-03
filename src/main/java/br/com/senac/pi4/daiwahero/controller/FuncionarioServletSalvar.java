@@ -37,6 +37,7 @@ public class FuncionarioServletSalvar extends HttpServlet {
         String genero = request.getParameter("sexo");
         String telefone = request.getParameter("telefone");
         String dataNasc = request.getParameter("dataNasc");
+        String cep = request.getParameter("cep");
         String endereco = request.getParameter("endereco");
         String bairro = request.getParameter("bairro");
         String cidade = request.getParameter("cidade");
@@ -69,6 +70,7 @@ public class FuncionarioServletSalvar extends HttpServlet {
         funcionario.setGenero(genero);
         funcionario.setTelefone(telefone);
         funcionario.setDataNasc(data);
+        funcionario.setCep(cep);
         funcionario.setEndereco(endereco);
         funcionario.setBairro(bairro);
         funcionario.setCidade(cidade);

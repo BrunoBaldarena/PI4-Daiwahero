@@ -37,7 +37,169 @@
         <!-- Custom styles for this template-->
 
         <link href="<c:url value="./jsp/css/sb-admin-2.min.css"/>" rel="stylesheet">
+        <script>
+            function mascaraData(val) {
+                var pass = val.value;
+                var expr = /[0123456789]/;
 
+                for (i = 0; i < pass.length; i++) {
+                    // charAt -> retorna o caractere posicionado no índice especificado
+                    var lchar = val.value.charAt(i);
+                    var nchar = val.value.charAt(i + 1);
+
+                    if (i == 0) {
+                        // search -> retorna um valor inteiro, indicando a posição do inicio da primeira
+                        // ocorrência de expReg dentro de instStr. Se nenhuma ocorrencia for encontrada o método retornara -1
+                        // instStr.search(expReg);
+                        if ((lchar.search(expr) != 0) || (lchar > 3)) {
+                            val.value = "";
+                        }
+
+                    } else if (i == 1) {
+
+                        if (lchar.search(expr) != 0) {
+                            // substring(indice1,indice2)
+                            // indice1, indice2 -> será usado para delimitar a string
+                            var tst1 = val.value.substring(0, (i));
+                            val.value = tst1;
+                            continue;
+                        }
+
+                        if ((nchar != '/') && (nchar != '')) {
+                            var tst1 = val.value.substring(0, (i) + 1);
+
+                            if (nchar.search(expr) != 0)
+                                var tst2 = val.value.substring(i + 2, pass.length);
+                            else
+                                var tst2 = val.value.substring(i + 1, pass.length);
+
+                            val.value = tst1 + '/' + tst2;
+                        }
+
+                    } else if (i == 4) {
+
+                        if (lchar.search(expr) != 0) {
+                            var tst1 = val.value.substring(0, (i));
+                            val.value = tst1;
+                            continue;
+                        }
+
+                        if ((nchar != '/') && (nchar != '')) {
+                            var tst1 = val.value.substring(0, (i) + 1);
+
+                            if (nchar.search(expr) != 0)
+                                var tst2 = val.value.substring(i + 2, pass.length);
+                            else
+                                var tst2 = val.value.substring(i + 1, pass.length);
+
+                            val.value = tst1 + '/' + tst2;
+                        }
+                    }
+
+                    if (i >= 6) {
+                        if (lchar.search(expr) != 0) {
+                            var tst1 = val.value.substring(0, (i));
+                            val.value = tst1;
+                        }
+                    }
+                }
+
+                if (pass.length > 10)
+                    val.value = val.value.substring(0, 10);
+                return true;
+            }
+
+            function limpa_formulário_cep() {
+                //Limpa valores do formulário de cep.
+                document.getElementById('endereco').value = ("");
+                document.getElementById('bairro').value = ("");
+                document.getElementById('cidade').value = ("");
+                document.getElementById('uf').value = ("");
+            }
+
+            function meu_callback(conteudo) {
+                if (!("erro" in conteudo)) {
+                    //Atualiza os campos com os valores.
+                    document.getElementById('endereco').value = (conteudo.logradouro);
+                    document.getElementById('bairro').value = (conteudo.bairro);
+                    document.getElementById('cidade').value = (conteudo.localidade);
+                    document.getElementById('uf').value = (conteudo.uf);
+                } //end if.
+                else {
+                    //CEP não Encontrado.
+                    limpa_formulário_cep();
+                    alert("CEP não encontrado.");
+                }
+            }
+
+            function pesquisacep(valor) {
+
+                //Nova variável "cep" somente com dígitos.
+                var cep = valor.replace(/\D/g, '');
+
+                //Verifica se campo cep possui valor informado.
+                if (cep != "") {
+
+                    //Expressão regular para validar o CEP.
+                    var validacep = /^[0-9]{8}$/;
+
+                    //Valida o formato do CEP.
+                    if (validacep.test(cep)) {
+
+                        document.getElementById('cep').value = cep.substring(0, 5)
+                                + "-"
+                                + cep.substring(5);
+
+                        //Preenche os campos com "..." enquanto consulta webservice.
+                        document.getElementById('endereco').value = "...";
+                        document.getElementById('bairro').value = "...";
+                        document.getElementById('cidade').value = "...";
+                        document.getElementById('uf').value = "...";
+
+                        //Cria um elemento javascript.
+                        var script = document.createElement('script');
+
+                        //Sincroniza com o callback.
+                        script.src = 'https://viacep.com.br/ws/' + cep + '/json/?callback=meu_callback';
+
+                        //Insere script no documento e carrega o conteúdo.
+                        document.body.appendChild(script);
+
+                    } //end if.
+                    else {
+                        //cep é inválido.
+                        limpa_formulário_cep();
+                        alert("Formato de CEP inválido.");
+                    }
+                } //end if.
+                else {
+                    //cep sem valor, limpa formulário.
+                    limpa_formulário_cep();
+                }
+            } ;
+        </script>       
+        		<script type="text/javascript">
+			function fMasc(objeto,mascara) {
+				obj=objeto
+				masc=mascara
+				setTimeout("fMascEx()",1)
+			}
+			function fMascEx() {
+				obj.value=masc(obj.value)
+			}
+
+			function mCPF(cpf){
+				cpf=cpf.replace(/\D/g,"")
+				cpf=cpf.replace(/(\d{3})(\d)/,"$1.$2")
+				cpf=cpf.replace(/(\d{3})(\d)/,"$1.$2")
+				cpf=cpf.replace(/(\d{3})(\d{1,2})$/,"$1-$2")
+				return cpf
+			}
+			function mNum(num){
+				num=num.replace(/\D/g,"")
+				return num
+			}
+		</script>
         <style>
             body {
                 background: #eee;
@@ -409,7 +571,7 @@
                                         <div class="col-sm-3">
                                             <div class="form-group">
                                                 <label for="cpf">CPF: <h11>*</h11></label>
-                                                <input style="  width: 60%; height: 60% "id="cpf" name="cpf" placeholder="000.000.000.00" class="form-control input-md" required="" type="text" maxlength="11" pattern="[0-9]+$">
+                                                <input style="  width: 60%; height: 60% "id="cpf" name="cpf" placeholder="000.000.000-00" class="form-control input-md" required="" type="text" maxlength="14" onkeydown="javascript: fMasc( this, mCPF );">
                                             </div>
                                         </div>
 
@@ -445,7 +607,7 @@
                                         <div class="col-sm-3">
                                             <div class="form-group">
                                                 <label for="dataNasc">Data de Nascimento:<h11>*</h11> </label>
-                                                <input style="  width: 60%; height: 60% " id="datanasc" name="dataNasc" placeholder="DD/MM/AAAA" class="form-control input-md" required="" type="text" maxlength="10" OnKeyPress="formatar('##/##/####', this)" onBlur="showhide()">
+                                                <input style="  width: 60%; height: 60% " id="datanasc" name="dataNasc" placeholder="DD/MM/AAAA" maxlength="10" onkeypress="mascaraData(this)" class="form-control input-md" required="" type="text" maxlength="10" OnKeyPress="formatar('##/##/####', this)" onBlur="showhide()">
                                             </div>
                                         </div>
 
@@ -459,6 +621,13 @@
                                                 <input name="sexo" id="sexo" value="masculino" type="radio">
                                                 Masculino
                                             </label>
+                                        </div>
+
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label for="cep">CEP: <h11>*</h11></label>
+                                                <input type="text" id="cep" name=cep class="form-control mascCep" maxlength="9" onblur="pesquisacep(this.value);" style="  width: 50%; height: 30% ">
+                                            </div>
                                         </div>
                                     </div>
 
@@ -538,7 +707,7 @@
                                         <div class="col-sm-3">
                                             <div class="form-group">
                                                 <label for="cargo" style="right: 50px;">Cargo: <h11>*</h11></label>
-                                                 <select name="cargo" id="cargo" class="form-control" placeholder="Qual?" style="padding-left: 50px;">
+                                                <select name="cargo" id="cargo" class="form-control" placeholder="Qual?" style="padding-left: 50px;">
                                                     <option>Administrador</option>
                                                     <option>Auxiliar</option>
                                                     <option>Estagiário</option>
@@ -561,6 +730,7 @@
                                     <div class="form-group" style="padding-left: 800px; margin-top: 10px;">
                                         <button class="btn  btn-primary" type="submit" name="div" >Salvar</button>
                                         <a href="#" class="btn  btn-default" style="background: #ff3300; color: white;" >Cancelar</a>
+                                        <br>
                                         <a href="#" class="btn  btn-link  aw-btn-link-danger" type="Reset" >Limpar Formulário</a>
                                     </div>
                                 </form>

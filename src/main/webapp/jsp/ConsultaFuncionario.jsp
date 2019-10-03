@@ -93,14 +93,27 @@
         </style>
 
         <script>
-            $(document).ready(function () {
-                $("#myInput").on("keyup", function () {
-                    var value = $(this).val().toLowerCase();
-                    $("#myTable tr").filter(function () {
-                        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-                    });
-                });
-            });
+            function myFunction() {
+                // Declare variables
+                var input, filter, table, tr, td, i, txtValue;
+                input = document.getElementById("myInput");
+                filter = input.value.toUpperCase();
+                table = document.getElementById("myTable");
+                tr = table.getElementsByTagName("tr");
+
+                // Loop through all table rows, and hide those who don't match the search query
+                for (i = 0; i < tr.length; i++) {
+                    td = tr[i].getElementsByTagName("td")[1];
+                    if (td) {
+                        txtValue = td.textContent || td.innerText;
+                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                            tr[i].style.display = "";
+                        } else {
+                            tr[i].style.display = "none";
+                        }
+                    }
+                }
+            }
         </script>
     </head>
 
@@ -386,25 +399,25 @@
                                     <div class="col-sm-3">
                                         <div class="form-group">
                                             <label for="categoria">Consultar</label>
-                                            <input class="form-control" id="myInput" type="text" placeholder="Search.."/>
+                                            <input class="form-control" id="myInput" type="text" onkeyup="myFunction()" placeholder="Search.."/>
                                         </div>
                                     </div>
                                 </div>
 
 
                                 <div class="table-responsive-sm">
-                                    <table id="dtBasic" class="table table-stripe">
+                                    <table  id="myTable" class="table table-stripe">
                                         <thead>
                                             <tr>
                                                 <th scope="col">Código</th>
                                                 <th scope="col">Nome</th>
                                                 <th scope="col">CPF</th>
                                                 <th scope="col">Email</th>
-                                                <th scope="col">Status</th>
+                                                <th scope="col">Telefone</th>
                                                 <th scope="col">Cargo</th>
                                             </tr>
                                         </thead>
-                                        <tbody id="myTable">
+                                        <tbody >
                                             <c:forEach items="${funcionario}" var="funcionario">
                                                 <tr>
                                                     <td><c:out value="${funcionario.getId()}"/></td>
@@ -415,11 +428,11 @@
                                                     <td><c:out value="${funcionario.getCargo()}"/></td>
                                             <form method="post" action="${pageContext.request.contextPath}/FuncionarioServletDeleta">
                                                 <td>
-                                                    <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#modalExemplo" value="${funcionario.getId()}" name="id">Excluir  </button></td>
+                                                    <button type="submit" class="btn btn-danger" data-toggle="modal" data-target="#modalExemplo" value="${funcionario.getId()}" name="id">Excluir  </button></td>
 
 
                                             </form>
-                                            <td><a href="./FuncionarioServletUpdate?id=${funcionario.getId()}"><button class="buttomUpdate" type="submit" value="${funcionario.getId()}" name="id" style="width: 70px; height: 30px">Atualizar</button></a></td>
+                                            <td><a href="./FuncionarioServletUpdate?id=${funcionario.getId()}"><button class="btn btn-primary" type="submit" value="${funcionario.getId()}" name="id">Atualizar</button></a></td>
                                             </tr>
                                             </tbody>
 
