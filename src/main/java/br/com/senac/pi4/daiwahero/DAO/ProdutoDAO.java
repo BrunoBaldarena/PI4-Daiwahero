@@ -18,9 +18,9 @@ public class ProdutoDAO {
 
     public int salvar(Produto produto) {
 
-        int pk_id=0;
+        int pk_id = 0;
         try {
-            
+
             String SQL = "INSERT INTO PRODUTO (NOME, DESCRICAO,BREVEDESCRICAO, VALOR, FK_CATEGORIA, STATUS, TG_STATUS) VALUES (?,?,?,?,?,?,0);";
 
             PreparedStatement ps = connection.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
@@ -33,13 +33,13 @@ public class ProdutoDAO {
             ps.setInt(6, produto.getStatus());
 
             ps.execute();
-            
+
             ResultSet rs = ps.getGeneratedKeys();
-            
-            if(rs.next()){
+
+            if (rs.next()) {
                 pk_id = rs.getInt(1);
             }
-            
+
             ps.close();
             connection.close();
 
@@ -49,7 +49,8 @@ public class ProdutoDAO {
         return pk_id;
     }
 
-    public ArrayList<Produto> buscarTodos() {
+    //Busca por todos os elementos do banco de dados
+    public ArrayList<Produto> listarTudo() {
 
         ArrayList<Produto> produtos = new ArrayList<>();
 
@@ -66,10 +67,10 @@ public class ProdutoDAO {
             while (rs.next()) {
 
                 Produto produto = new Produto();
-                
+
                 produto.setPk_produto(rs.getInt("P.PK_PRODUTO"));
                 produto.setNome(rs.getString("P.NOME"));
-                produto.setValor(rs.getString("P.VALOR"));               
+                produto.setValor(rs.getString("P.VALOR"));
                 produto.setNome_categoria(rs.getString("C.NOME"));
                 produto.setQuantidade_estoque(rs.getInt("E.QUANTIDADE"));
                 produto.setStatus(rs.getInt("P.STATUS"));
@@ -85,14 +86,18 @@ public class ProdutoDAO {
         }
         return produtos;
     }
-    
-    public List<Produto> buscarNome(String nome) {
+
+    //Filtra os dados da tabela pelo nome
+    public List<Produto> listarNome(String nome) {
 
         List<Produto> produtos = new ArrayList<>();
 
         try {
 
-            String SQL = "SELECT * FROM PRODUTO WHERE TG_STATUS=0 AND NOME="+nome+";";
+            String SQL = "SELECT P.PK_PRODUTO, P.NOME, P.VALOR, P.STATUS, C.NOME,"
+                    + " E.QUANTIDADE FROM ESTOQUE AS E INNER JOIN CATEGORIA AS C "
+                    + "INNER JOIN PRODUTO AS P ON P.PK_PRODUTO = E.PK_ESTOQUE"
+                    + " AND P.FK_CATEGORIA = C.PK_CATEGORIA WHERE P.TG_STATUS = 0";
 
             Statement st = connection.createStatement();
             ResultSet rs = st.executeQuery(SQL);
@@ -118,8 +123,47 @@ public class ProdutoDAO {
         return produtos;
     }
     
-    
-     // Metodo que seta 0 para TG_STATUS inativando logicamente o elemento
+    //Filtra os dados pelo ID
+    public ArrayList<Produto> listarID(int id) {
+
+       ArrayList<Produto> produtos = new ArrayList<>();
+
+        try {
+
+            String SQL = "SELECT P.PK_PRODUTO, P.FK_CATEGORIA,P.DESCRICAO, P.BREVEDESCRICAO, P.NOME, P.VALOR, P.STATUS, C.NOME,"
+                    + " E.QUANTIDADE FROM ESTOQUE AS E INNER JOIN CATEGORIA AS C "
+                    + "INNER JOIN PRODUTO AS P ON P.PK_PRODUTO = E.PK_ESTOQUE"
+                    + " AND P.FK_CATEGORIA = C.PK_CATEGORIA WHERE P.PK_PRODUTO="+id+";";
+
+            Statement st = connection.createStatement();
+            ResultSet rs = st.executeQuery(SQL);
+
+            while (rs.next()) {
+
+                Produto produto = new Produto();
+                produto.setPk_produto(rs.getInt("P.PK_PRODUTO"));
+                produto.setFk_categoria(rs.getInt("P.FK_CATEGORIA"));
+                produto.setDescricao(rs.getString("P.DESCRICAO"));
+                produto.setBreveDescricao(rs.getString("P.BREVEDESCRICAO"));
+                produto.setNome(rs.getString("P.NOME"));
+                produto.setValor(rs.getString("P.VALOR"));
+                produto.setStatus(rs.getInt("P.STATUS"));
+                produto.setNome_categoria(rs.getString("C.NOME"));
+                produto.setQuantidade_estoque(rs.getInt("E.QUANTIDADE"));
+
+                produtos.add(produto);
+            }
+            st.close();
+            connection.close();
+            rs.close();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return produtos;
+    }
+
+    // Metodo que seta 0 para TG_STATUS inativando logicamente o elemento
     public void inativar(Produto produto)
             throws SQLException, Exception {
         try {
@@ -136,24 +180,20 @@ public class ProdutoDAO {
         }
 
     }
-    
-     // Metodo para editar categoria
+
+    // Metodo para editar produto
     public void Editar(Produto produto) {
 
         try {
-
-            String SQL = "UPDATE PRODUTO SET NOME = ?, DESCRICAO = ?, BREVEDESCRICAO = ?, VALOR = ?, FK_CATEGORIA=?, STATUS = ? WHERE ID = ?";
-
+            
+            String SQL="UPDATE PRODUTO SET NOME=?, VALOR=?, STATUS=?, FK_CATEGORIA=? WHERE PK_PRODUTO=?"; 
             PreparedStatement ps = connection.prepareStatement(SQL);
-
+            
             ps.setString(1, produto.getNome());
-            ps.setString(2, produto.getDescricao());
-            ps.setString(3, produto.getBreveDescricao());
-            ps.setString(4, produto.getValor());
-            ps.setInt(5, produto.getFk_categoria());
-            ps.setInt(6, produto.getStatus());
-            ps.setInt(7, produto.getPk_produto());
-
+            ps.setString(2, produto.getValor());
+            ps.setInt(3, produto.getStatus());
+            ps.setInt(4, produto.getFk_categoria());
+            ps.setInt(5, produto.getPk_produto());
 
             ps.execute();
             ps.close();

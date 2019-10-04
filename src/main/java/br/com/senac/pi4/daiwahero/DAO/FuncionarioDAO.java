@@ -1,16 +1,13 @@
 package br.com.senac.pi4.daiwahero.DAO;
 
 import br.com.senac.pi4.daiwahero.model.Funcionario;
-import br.com.senac.pi4.daiwahero.model.Produto;
 import br.com.senac.pi4.daiwahero.utils.ConnectionUtils;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.List;
 
 public class FuncionarioDAO {
 
@@ -26,8 +23,8 @@ public class FuncionarioDAO {
 
             String SQL = "INSERT INTO FUNCIONARIO (NOME, CPF, EMAIL, SENHA, "
                     + "GENERO, TELEFONE, DATANASC, CEP, ENDERECO, BAIRRO, CIDADE, UF,"
-                    + "COMPLEMENTO, NUMERO, CARGO, STATUS, TG_STATUS)"
-                    + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,1);";
+                    + "COMPLEMENTO, NUMERO, CARGO, TG_STATUS)"
+                    + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,1);";
 
             try (PreparedStatement ps = connection.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS)) {
                 ps.setString(1, funcionario.getNome());
@@ -45,7 +42,6 @@ public class FuncionarioDAO {
                 ps.setString(13, funcionario.getComplemento());
                 ps.setString(14, funcionario.getNumero());
                 ps.setString(15, funcionario.getCargo());
-                ps.setInt(16, funcionario.getHabilitado());
                 ps.execute();
 
                 ResultSet rs = ps.getGeneratedKeys();
@@ -93,7 +89,6 @@ public class FuncionarioDAO {
                 funcionario.setComplemento(rs.getString("COMPLEMENTO"));
                 funcionario.setNumero(rs.getString("NUMERO"));
                 funcionario.setCargo(rs.getString("CARGO"));
-                funcionario.setHabilitado(rs.getInt("STATUS"));
                 funcionario.setTgStatus(rs.getInt("TG_STATUS"));
 
                 funcionarios.add(funcionario);
@@ -116,7 +111,7 @@ public class FuncionarioDAO {
         boolean resultado = true;
         try {
 
-            String SQL = "UPDATE FUNCIONARIO SET NOME = ?, CPF = ?, SENHA = ?, GENERO = ?, TELEFONE = ?, DATANASC = ?, CEP = ?,  ENDERECO = ?, BAIRRO = ?, CIDADE = ?, UF = ?, COMPLEMENTO = ?, NUMERO = ?, CARGO = ?, STATUS = ? WHERE PK_FUNCIONARIO = ?";
+            String SQL = "UPDATE FUNCIONARIO SET NOME = ?, CPF = ?, SENHA = ?, GENERO = ?, TELEFONE = ?, DATANASC = ?, CEP = ?,  ENDERECO = ?, BAIRRO = ?, CIDADE = ?, UF = ?, COMPLEMENTO = ?, NUMERO = ?, CARGO = ? WHERE PK_FUNCIONARIO = ?";
 
             PreparedStatement ps = connection.prepareStatement(SQL);
 
@@ -134,8 +129,7 @@ public class FuncionarioDAO {
             ps.setString(12, funcionario.getComplemento());
             ps.setString(13, funcionario.getNumero());
             ps.setString(14, funcionario.getCargo());
-            ps.setInt(15, funcionario.getHabilitado());
-            ps.setInt(16, funcionario.getId());
+            ps.setInt(15, funcionario.getId());
 
             ps.execute();
             ps.close();
@@ -178,7 +172,7 @@ public class FuncionarioDAO {
                 funcionario.setComplemento(rs.getString("COMPLEMENTO"));
                 funcionario.setNumero(rs.getString("NUMERO"));
                 funcionario.setCargo(rs.getString("CARGO"));
-                funcionario.setHabilitado(rs.getInt("STATUS"));
+              
 
             }
             st.close();

@@ -45,13 +45,7 @@ public class FuncionarioServletSalvar extends HttpServlet {
         String complemento = request.getParameter("complemento");
         String numero = request.getParameter("numero");
         String cargo = request.getParameter("cargo");
-        String habilitado = request.getParameter("habilitado");
-
-        int status = 0;
-        if ("on".equals(habilitado)) {
-            status = 1;
-        }
-  
+     
         Funcionario funcionario = new Funcionario();
         FuncionarioDAO dao = new FuncionarioDAO();
         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
@@ -78,7 +72,7 @@ public class FuncionarioServletSalvar extends HttpServlet {
         funcionario.setComplemento(complemento);
         funcionario.setNumero(numero);
         funcionario.setCargo(cargo);
-        funcionario.setHabilitado(status);
+    
 
         int pk_funcionario = dao.salvar(funcionario);
 

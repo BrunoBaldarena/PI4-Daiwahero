@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.faces.context.FacesContext;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -75,6 +76,7 @@ public class CategoriaServlet extends HttpServlet {
         categoria.setNome(nome);
 
         CategoriaDAO dao = new CategoriaDAO();
+        
 
         dao.inserir(categoria);
         response.sendRedirect("./categoriaConsultar");
@@ -88,7 +90,7 @@ public class CategoriaServlet extends HttpServlet {
         CategoriaDAO dao = new CategoriaDAO();
         ArrayList<Categoria> categoria = dao.listarTudo();
 
-        RequestDispatcher rd = request.getRequestDispatcher("./jsp/Categoria.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("/categoriaCadastro.jsp");
         request.setAttribute("categoria", categoria);
         rd.forward(request, response);
 

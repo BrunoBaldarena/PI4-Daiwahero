@@ -129,7 +129,7 @@ public class ProdutoServlet extends HttpServlet {
         
         EstoqueDAO estoqueDAO = new EstoqueDAO();
         
-        ArrayList<Produto> produto = produtoDAO.buscarTodos();
+        ArrayList<Produto> produto = produtoDAO.listarTudo();
 
         
 

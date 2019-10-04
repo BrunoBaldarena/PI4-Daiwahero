@@ -5,14 +5,10 @@
  */
 package br.com.senac.pi4.daiwahero.controller;
 
-import br.com.senac.pi4.daiwahero.DAO.EstoqueDAO;
+
 import br.com.senac.pi4.daiwahero.DAO.FuncionarioDAO;
-import br.com.senac.pi4.daiwahero.DAO.ProdutoDAO;
 import br.com.senac.pi4.daiwahero.model.Funcionario;
-import br.com.senac.pi4.daiwahero.model.Produto;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -35,11 +31,12 @@ public class FuncionarioServletBusca extends HttpServlet {
             throws ServletException, IOException {
         FuncionarioDAO dao = new FuncionarioDAO();
         List<Funcionario> funcionario = dao.buscarTodos();
+       
         
+        
+        RequestDispatcher rd = request.getRequestDispatcher("/jsp/ConsultaFuncionario.jsp");
         request.setAttribute("funcionario", funcionario);
-        RequestDispatcher dispatcher
-                = request.getRequestDispatcher("./jsp/ConsultaFuncionario.jsp");
-        dispatcher.forward(request, response);
+        rd.forward(request, response);
     }
 
 

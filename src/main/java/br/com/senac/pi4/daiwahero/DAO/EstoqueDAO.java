@@ -42,12 +42,12 @@ public class EstoqueDAO {
 
         try {
 
-            String SQL = "UPDATE ESTOQUE SET QUANTIDADE=? WHERE PK_ESTOQUE=?";
+            String SQL = "UPDATE ESTOQUE SET QUANTIDADE=? WHERE FK_PRODUTO=?";
 
             PreparedStatement ps = connection.prepareStatement(SQL);
 
             ps.setInt(1, estoque.getQuantidade());
-            ps.setInt(2, estoque.getPk_estoque());
+            ps.setInt(2, estoque.getFk_produto());
 
             ps.execute();
             ps.close();

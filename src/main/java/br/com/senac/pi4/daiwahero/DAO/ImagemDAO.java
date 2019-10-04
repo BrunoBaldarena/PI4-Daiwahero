@@ -20,7 +20,7 @@ public class ImagemDAO {
 
         try {
 
-            String SQL = "INSERT INTO IMAGEM (IMAGEM_1,IMAGEM_2,IMAGEM_3,IMAGEM_4) VALUES (?,?,?,?);";
+            String SQL = "INSERT INTO IMAGEM (IMAGEM_1,IMAGEM_2,IMAGEM_3,IMAGEM_4, FK_PRODUTO) VALUES (?,?,?,?,?);";
 
             PreparedStatement ps = connection.prepareStatement(SQL);
 
@@ -28,6 +28,7 @@ public class ImagemDAO {
             ps.setString(2, imagem.getImagem2());
             ps.setString(3, imagem.getImagem3());
             ps.setString(4, imagem.getImagem4());
+            ps.setInt(5, imagem.getFk_produto());
 
             ps.execute();
 

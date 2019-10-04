@@ -7,7 +7,6 @@ package br.com.senac.pi4.daiwahero.controller;
 
 import br.com.senac.pi4.daiwahero.DAO.FuncionarioDAO;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
