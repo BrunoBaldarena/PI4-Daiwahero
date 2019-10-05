@@ -227,7 +227,7 @@ body {
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Acesso</h6>
             
-            <a class="collapse-item" href="${pageContext.request.contextPath}/jsp/CadastroFuncionario.jsp">Cadastrar Funcionário</a>
+            <a class="collapse-item" href="${pageContext.request.contextPath}/FuncionarioServletSalvar">Cadastrar Funcionário</a>
             <a class="collapse-item" href="${pageContext.request.contextPath}/FuncionarioServletBusca">Consultar Funcionário</a>
             
             </div>

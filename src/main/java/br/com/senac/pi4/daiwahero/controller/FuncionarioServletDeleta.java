@@ -29,16 +29,28 @@ public class FuncionarioServletDeleta extends HttpServlet {
         String id = request.getParameter("id");
 
         FuncionarioDAO dao = new FuncionarioDAO();
+        
+        boolean cond = false;
         try {
-            dao.inativar(Integer.parseInt(id));
+            cond = dao.inativar(Integer.parseInt(id));
         } catch (Exception ex) {
             Logger.getLogger(FuncionarioServletDeleta.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+        String msg;
 
-        RequestDispatcher dispatcher
+        if (cond == true) {
+            msg = "Funcionário deletado com sucesso!";
+        } else {
+            msg = "Erro ao deleta o funcionário. Tente novamente!";
+        }
+
+        request.setAttribute("msg", msg);
+
+        response.sendRedirect("./FuncionarioServletBusca");
+
+        /*RequestDispatcher dispatcher
                 = getServletContext().getRequestDispatcher("FuncionarioServletBusca");
-        dispatcher.forward(request, response);
+        dispatcher.forward(request, response);*/
     }
 
 }

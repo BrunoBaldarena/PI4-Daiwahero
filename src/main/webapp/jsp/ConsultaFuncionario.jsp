@@ -394,11 +394,13 @@
 
 
 
-                           
+                       
 
                                 <div class="row">
+                                        ${msg}
                                     <div class="col-sm-3">
                                         <div class="form-group">
+                                             
                                             <label for="categoria">Consultar</label>
                                             <input class="form-control" id="myInput" type="text" onkeyup="myFunction()" placeholder="Search.."/>
                                         </div>

@@ -14,7 +14,7 @@ public class ConnectionUtils {
 
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            return DriverManager.getConnection("jdbc:mysql://localhost/DAIWAHERO", "root", "");
+            return DriverManager.getConnection("jdbc:mysql://localhost:3310/DAIWAHERO", "root", "");
 
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
