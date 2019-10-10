@@ -45,17 +45,9 @@ public class FuncionarioServletSalvar extends HttpServlet {
         String complemento = request.getParameter("complemento");
         String numero = request.getParameter("numero");
         String cargo = request.getParameter("cargo");
-     
+
         Funcionario funcionario = new Funcionario();
         FuncionarioDAO dao = new FuncionarioDAO();
-        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-
-        Date data = null;
-        try {
-            data = formato.parse(dataNasc);
-        } catch (ParseException ex) {
-            Logger.getLogger(FuncionarioServletSalvar.class.getName()).log(Level.SEVERE, null, ex);
-        }
 
         funcionario.setNome(nome);
         funcionario.setCpf(cpf);
@@ -63,7 +55,7 @@ public class FuncionarioServletSalvar extends HttpServlet {
         funcionario.setSenha(senha);
         funcionario.setGenero(genero);
         funcionario.setTelefone(telefone);
-        funcionario.setDataNasc(data);
+        funcionario.setDataNasc(dataNasc);
         funcionario.setCep(cep);
         funcionario.setEndereco(endereco);
         funcionario.setBairro(bairro);
@@ -73,8 +65,12 @@ public class FuncionarioServletSalvar extends HttpServlet {
         funcionario.setNumero(numero);
         funcionario.setCargo(cargo);
     
-
-        int pk_funcionario = dao.salvar(funcionario);
+        int pk_funcionario = 0;
+        try {
+            pk_funcionario = dao.salvar(funcionario);
+        } catch (ParseException ex) {
+            Logger.getLogger(FuncionarioServletSalvar.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         String msg;
         

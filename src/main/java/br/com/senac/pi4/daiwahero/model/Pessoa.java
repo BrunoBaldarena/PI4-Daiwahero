@@ -11,14 +11,14 @@ public class Pessoa extends Endereco {
     private String senha;
     private String cpf;
     private String telefone;
-    private Date dataNasc;
+    private String dataNasc;
     private int tgStatus;
 
     public Pessoa() {
 
     }
 
-    public Pessoa(String nome, String genero, String email, String senha, String cpf, String telefone, Date dataNasc) {
+    public Pessoa(String nome, String genero, String email, String senha, String cpf, String telefone, String dataNasc) {
         this.nome = nome;
         this.genero = genero;
         this.email = email;
@@ -28,7 +28,7 @@ public class Pessoa extends Endereco {
         this.dataNasc = dataNasc;
     }
 
-    public Pessoa(int id, String nome, String genero, String email, String senha, String cpf, String telefone, Date dataNasc) {
+    public Pessoa(int id, String nome, String genero, String email, String senha, String cpf, String telefone, String dataNasc) {
         this.id = id;
         this.nome = nome;
         this.genero = genero;
@@ -95,11 +95,11 @@ public class Pessoa extends Endereco {
         this.telefone = telefone;
     }
 
-    public Date getDataNasc() {
+    public String getDataNasc() {
         return dataNasc;
     }
 
-    public void setDataNasc(Date dataNasc) {
+    public void setDataNasc(String dataNasc) {
         this.dataNasc = dataNasc;
     }
 

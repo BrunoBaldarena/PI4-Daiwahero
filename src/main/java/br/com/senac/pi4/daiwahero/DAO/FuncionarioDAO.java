@@ -7,16 +7,24 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class FuncionarioDAO {
 
     //Chama a conexao com o banco de dados 
     Connection connection = ConnectionUtils.getConnection();
 
-    public int salvar(Funcionario funcionario) {
+    public int salvar(Funcionario funcionario) throws ParseException {
 
-        java.sql.Date dataSql = new java.sql.Date(funcionario.getDataNasc().getTime());
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+
+        Date data = formato.parse(funcionario.getDataNasc());
+
+        java.sql.Date dataSql = new java.sql.Date(data.getTime());
 
         int pk_id = 0;
         try {
@@ -58,7 +66,7 @@ public class FuncionarioDAO {
         return pk_id;
     }
 
-    public ArrayList<Funcionario> buscarTodos() {
+    public ArrayList<Funcionario> buscarTodos() throws ParseException {
 
         ArrayList<Funcionario> funcionarios = new ArrayList<>();
 
@@ -66,34 +74,42 @@ public class FuncionarioDAO {
 
             String SQL = "SELECT * FROM FUNCIONARIO WHERE TG_STATUS = 1";
 
-            Statement st = connection.createStatement();
-            ResultSet rs = st.executeQuery(SQL);
-
-            while (rs.next()) {
-
-                Funcionario funcionario = new Funcionario();
-
-                funcionario.setId(rs.getInt("PK_FUNCIONARIO"));
-                funcionario.setNome(rs.getString("NOME"));
-                funcionario.setCpf(rs.getString("CPF"));
-                funcionario.setEmail(rs.getString("EMAIL"));
-                funcionario.setSenha(rs.getString("SENHA"));
-                funcionario.setGenero(rs.getString("GENERO"));
-                funcionario.setTelefone(rs.getString("TELEFONE"));
-                funcionario.setDataNasc(rs.getDate("DATANASC"));
-                funcionario.setCep(rs.getString("CEP"));
-                funcionario.setEndereco(rs.getString("ENDERECO"));
-                funcionario.setBairro(rs.getString("BAIRRO"));
-                funcionario.setCidade(rs.getString("CIDADE"));
-                funcionario.setUf(rs.getString("UF"));
-                funcionario.setComplemento(rs.getString("COMPLEMENTO"));
-                funcionario.setNumero(rs.getString("NUMERO"));
-                funcionario.setCargo(rs.getString("CARGO"));
-                funcionario.setTgStatus(rs.getInt("TG_STATUS"));
-
-                funcionarios.add(funcionario);
+            ResultSet rs;
+            try (Statement st = connection.createStatement()) {
+                rs = st.executeQuery(SQL);
+                while (rs.next()) {
+                    
+                    //Primeiro converte de String para Date
+                    DateFormat formatUS = new SimpleDateFormat("yyyy-mm-dd");
+                    Date date = formatUS.parse(rs.getDate("DATANASC").toString());
+                    
+                    //Depois formata data
+                    DateFormat formatBR = new SimpleDateFormat("dd-mm-yyyy");
+                    String dateFormated = formatBR.format(date);
+                    
+                    Funcionario funcionario = new Funcionario();
+                    
+                    funcionario.setId(rs.getInt("PK_FUNCIONARIO"));
+                    funcionario.setNome(rs.getString("NOME"));
+                    funcionario.setCpf(rs.getString("CPF"));
+                    funcionario.setEmail(rs.getString("EMAIL"));
+                    funcionario.setSenha(rs.getString("SENHA"));
+                    funcionario.setGenero(rs.getString("GENERO"));
+                    funcionario.setTelefone(rs.getString("TELEFONE"));
+                    funcionario.setDataNasc(dateFormated);
+                    funcionario.setCep(rs.getString("CEP"));
+                    funcionario.setEndereco(rs.getString("ENDERECO"));
+                    funcionario.setBairro(rs.getString("BAIRRO"));
+                    funcionario.setCidade(rs.getString("CIDADE"));
+                    funcionario.setUf(rs.getString("UF"));
+                    funcionario.setComplemento(rs.getString("COMPLEMENTO"));
+                    funcionario.setNumero(rs.getString("NUMERO"));
+                    funcionario.setCargo(rs.getString("CARGO"));
+                    funcionario.setTgStatus(rs.getInt("TG_STATUS"));
+                    
+                    funcionarios.add(funcionario);
+                }
             }
-            st.close();
             connection.close();
             rs.close();
 
@@ -104,35 +120,38 @@ public class FuncionarioDAO {
     }
 
     // Metodo para editar categoria
-    public boolean Editar(Funcionario funcionario) {
+    public boolean Editar(Funcionario funcionario) throws ParseException {
 
-        java.sql.Date dataSql = new java.sql.Date(funcionario.getDataNasc().getTime());
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+
+        Date data = formato.parse(funcionario.getDataNasc());
+
+        java.sql.Date dataSql = new java.sql.Date(data.getTime());
 
         boolean resultado = true;
         try {
 
             String SQL = "UPDATE FUNCIONARIO SET NOME = ?, CPF = ?, SENHA = ?, GENERO = ?, TELEFONE = ?, DATANASC = ?, CEP = ?,  ENDERECO = ?, BAIRRO = ?, CIDADE = ?, UF = ?, COMPLEMENTO = ?, NUMERO = ?, CARGO = ? WHERE PK_FUNCIONARIO = ?";
 
-            PreparedStatement ps = connection.prepareStatement(SQL);
-
-            ps.setString(1, funcionario.getNome());
-            ps.setString(2, funcionario.getCpf());
-            ps.setString(3, funcionario.getSenha());
-            ps.setString(4, funcionario.getGenero());
-            ps.setString(5, funcionario.getTelefone());
-            ps.setDate(6, dataSql);
-            ps.setString(7, funcionario.getCep());
-            ps.setString(8, funcionario.getEndereco());
-            ps.setString(9, funcionario.getBairro());
-            ps.setString(10, funcionario.getCidade());
-            ps.setString(11, funcionario.getUf());
-            ps.setString(12, funcionario.getComplemento());
-            ps.setString(13, funcionario.getNumero());
-            ps.setString(14, funcionario.getCargo());
-            ps.setInt(15, funcionario.getId());
-
-            ps.execute();
-            ps.close();
+            try (PreparedStatement ps = connection.prepareStatement(SQL)) {
+                ps.setString(1, funcionario.getNome());
+                ps.setString(2, funcionario.getCpf());
+                ps.setString(3, funcionario.getSenha());
+                ps.setString(4, funcionario.getGenero());
+                ps.setString(5, funcionario.getTelefone());
+                ps.setDate(6, dataSql);
+                ps.setString(7, funcionario.getCep());
+                ps.setString(8, funcionario.getEndereco());
+                ps.setString(9, funcionario.getBairro());
+                ps.setString(10, funcionario.getCidade());
+                ps.setString(11, funcionario.getUf());
+                ps.setString(12, funcionario.getComplemento());
+                ps.setString(13, funcionario.getNumero());
+                ps.setString(14, funcionario.getCargo());
+                ps.setInt(15, funcionario.getId());
+                
+                ps.execute();
+            }
             connection.close();
 
         } catch (SQLException ex) {
@@ -143,7 +162,7 @@ public class FuncionarioDAO {
         return resultado;
     }
 
-    public Funcionario buscarID(int id) {
+    public Funcionario buscarID(int id) throws ParseException {
 
         Funcionario funcionario = new Funcionario();
 
@@ -151,31 +170,38 @@ public class FuncionarioDAO {
 
             String SQL = "SELECT * FROM FUNCIONARIO WHERE PK_FUNCIONARIO =" + id + ";";
 
-            Statement st = connection.createStatement();
-            ResultSet rs = st.executeQuery(SQL);
+            ResultSet rs;
+            try (Statement st = connection.createStatement()) {
+                rs = st.executeQuery(SQL);
+                while (rs.next()) {
 
-            while (rs.next()) {
+                    //Primeiro converte de String para Date
+                    DateFormat formatUS = new SimpleDateFormat("yyyy-mm-dd");
+                    Date date = formatUS.parse(rs.getDate("DATANASC").toString());
 
-                funcionario.setId(rs.getInt("PK_FUNCIONARIO"));
-                funcionario.setNome(rs.getString("NOME"));
-                funcionario.setCpf(rs.getString("CPF"));
-                funcionario.setEmail(rs.getString("EMAIL"));
-                funcionario.setSenha(rs.getString("SENHA"));
-                funcionario.setGenero(rs.getString("GENERO"));
-                funcionario.setTelefone(rs.getString("TELEFONE"));
-                funcionario.setDataNasc(rs.getDate("DATANASC"));
-                funcionario.setCep(rs.getString("CEP"));
-                funcionario.setEndereco(rs.getString("ENDERECO"));
-                funcionario.setBairro(rs.getString("BAIRRO"));
-                funcionario.setCidade(rs.getString("CIDADE"));
-                funcionario.setUf(rs.getString("UF"));
-                funcionario.setComplemento(rs.getString("COMPLEMENTO"));
-                funcionario.setNumero(rs.getString("NUMERO"));
-                funcionario.setCargo(rs.getString("CARGO"));
-              
+                    //Depois formata data
+                    DateFormat formatBR = new SimpleDateFormat("dd/mm/yyyy");
+                    String dateFormated = formatBR.format(date);
 
+                    funcionario.setId(rs.getInt("PK_FUNCIONARIO"));
+                    funcionario.setNome(rs.getString("NOME"));
+                    funcionario.setCpf(rs.getString("CPF"));
+                    funcionario.setEmail(rs.getString("EMAIL"));
+                    funcionario.setSenha(rs.getString("SENHA"));
+                    funcionario.setGenero(rs.getString("GENERO"));
+                    funcionario.setTelefone(rs.getString("TELEFONE"));
+                    funcionario.setDataNasc(dateFormated);
+                    funcionario.setCep(rs.getString("CEP"));
+                    funcionario.setEndereco(rs.getString("ENDERECO"));
+                    funcionario.setBairro(rs.getString("BAIRRO"));
+                    funcionario.setCidade(rs.getString("CIDADE"));
+                    funcionario.setUf(rs.getString("UF"));
+                    funcionario.setComplemento(rs.getString("COMPLEMENTO"));
+                    funcionario.setNumero(rs.getString("NUMERO"));
+                    funcionario.setCargo(rs.getString("CARGO"));
+
+                }
             }
-            st.close();
             connection.close();
             rs.close();
 
@@ -193,11 +219,11 @@ public class FuncionarioDAO {
         try {
             String sql = "UPDATE FUNCIONARIO SET TG_STATUS = 0 WHERE PK_FUNCIONARIO = ?";
 
-            PreparedStatement pst = connection.prepareStatement(sql);
-            pst.setInt(1, id);
-
-            pst.execute();
-            pst.close();
+            try (PreparedStatement pst = connection.prepareStatement(sql)) {
+                pst.setInt(1, id);
+                
+                pst.execute();
+            }
             connection.close();
         } catch (SQLException e) {
             resultado = false;

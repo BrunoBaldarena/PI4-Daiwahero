@@ -25,16 +25,19 @@ public class FuncionarioServletUpdate extends HttpServlet {
         String id = request.getParameter("id");
 
         FuncionarioDAO dao = new FuncionarioDAO();
-        Funcionario funcionario = dao.buscarID(Integer.parseInt(id));
-
-        String dataNasc = funcionario.getDataNasc().toString();
-        request.setAttribute("dataNasc", dataNasc.replace("-", "/"));
+        Funcionario funcionario = null;
+        try {
+            funcionario = dao.buscarID(Integer.parseInt(id));
+        } catch (ParseException ex) {
+            Logger.getLogger(FuncionarioServletUpdate.class.getName()).log(Level.SEVERE, null, ex);
+        }
         request.setAttribute("funcionario", funcionario);
 
         RequestDispatcher destino = request.getRequestDispatcher("./jsp/FuncionarioUpdate.jsp");
         destino.forward(request, response);
     }
 
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
@@ -59,14 +62,6 @@ public class FuncionarioServletUpdate extends HttpServlet {
 
         Funcionario funcionario = new Funcionario();
         FuncionarioDAO dao = new FuncionarioDAO();
-        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-
-        Date data = null;
-        try {
-            data = formato.parse(dataNasc);
-        } catch (ParseException ex) {
-            Logger.getLogger(FuncionarioServletSalvar.class.getName()).log(Level.SEVERE, null, ex);
-        }
 
         funcionario.setId(Integer.parseInt(id));
         funcionario.setNome(nome);
@@ -75,7 +70,7 @@ public class FuncionarioServletUpdate extends HttpServlet {
         funcionario.setSenha(senha);
         funcionario.setGenero(genero);
         funcionario.setTelefone(telefone);
-        funcionario.setDataNasc(data);
+        funcionario.setDataNasc(dataNasc);
         funcionario.setCep(cep);
         funcionario.setEndereco(endereco);
         funcionario.setBairro(bairro);
@@ -85,7 +80,12 @@ public class FuncionarioServletUpdate extends HttpServlet {
         funcionario.setNumero(numero);
         funcionario.setCargo(cargo);
 
-        boolean retorno = dao.Editar(funcionario);
+        boolean retorno = false;
+        try {
+            retorno = dao.Editar(funcionario);
+        } catch (ParseException ex) {
+            Logger.getLogger(FuncionarioServletUpdate.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         if (retorno == true) {
             msg = "Alteração realizada com sucesso";

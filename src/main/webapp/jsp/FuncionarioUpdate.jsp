@@ -613,7 +613,7 @@
                                         <div class="col-sm-3">
                                             <div class="form-group">
                                                 <label for="dataNasc">Data de Nascimento:<h11>*</h11> </label>
-                                                <input style="  width: 60%; height: 60% " id="datanasc" name="dataNasc" value="${dataNasc}" class="form-control input-md" required="" type="text" maxlength="10" onkeypress="mascaraData(this)" OnKeyPress="formatar('##/##/####', this)" onBlur="showhide()">
+                                                <input style="  width: 60%; height: 60% " id="datanasc" name="dataNasc" value="${funcionario.getDataNasc()}" class="form-control input-md" required="" type="text" maxlength="10" onkeypress="mascaraData(this)" OnKeyPress="formatar('##/##/####', this)" onBlur="showhide()">
                                             </div>
                                         </div>
 
