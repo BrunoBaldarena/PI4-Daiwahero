@@ -9,7 +9,10 @@ package br.com.senac.pi4.daiwahero.controller;
 import br.com.senac.pi4.daiwahero.DAO.FuncionarioDAO;
 import br.com.senac.pi4.daiwahero.model.Funcionario;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -30,7 +33,12 @@ public class FuncionarioServletBusca extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         FuncionarioDAO dao = new FuncionarioDAO();
-        List<Funcionario> funcionario = dao.buscarTodos();
+        List<Funcionario> funcionario = null;
+         try {
+             funcionario = dao.buscarTodos();
+         } catch (ParseException ex) {
+             Logger.getLogger(FuncionarioServletBusca.class.getName()).log(Level.SEVERE, null, ex);
+         }
        
         
         

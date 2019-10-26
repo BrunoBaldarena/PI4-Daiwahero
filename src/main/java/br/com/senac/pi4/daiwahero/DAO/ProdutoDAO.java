@@ -21,7 +21,7 @@ public class ProdutoDAO {
         int pk_id = 0;
         try {
 
-            String SQL = "INSERT INTO PRODUTO (NOME, DESCRICAO,BREVEDESCRICAO, VALOR, FK_CATEGORIA, STATUS, TG_STATUS) VALUES (?,?,?,?,?,?,0);";
+            String SQL = "INSERT INTO PRODUTO (NOME, DESCRICAO, BREVEDESCRICAO, VALOR, QUANTIDADE,FK_CATEGORIA, STATUS, TG_STATUS) VALUES (?,?,?,?,?,?,?,0);";
 
             PreparedStatement ps = connection.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
 
@@ -29,8 +29,9 @@ public class ProdutoDAO {
             ps.setString(2, produto.getDescricao());
             ps.setString(3, produto.getBreveDescricao());
             ps.setString(4, produto.getValor());
-            ps.setInt(5, produto.getFk_categoria());
-            ps.setInt(6, produto.getStatus());
+            ps.setInt(5, produto.getQuantidade_estoque());
+            ps.setInt(6, produto.getFk_categoria());
+            ps.setInt(7, produto.getStatus());
 
             ps.execute();
 
@@ -56,10 +57,12 @@ public class ProdutoDAO {
 
         try {
 
-            String SQL = "SELECT P.PK_PRODUTO, P.NOME, P.VALOR, P.STATUS, C.NOME,"
-                    + " E.QUANTIDADE FROM ESTOQUE AS E INNER JOIN CATEGORIA AS C "
-                    + "INNER JOIN PRODUTO AS P ON P.PK_PRODUTO = E.PK_ESTOQUE"
-                    + " AND P.FK_CATEGORIA = C.PK_CATEGORIA WHERE P.TG_STATUS = 0";
+            /*String SQL = "SELECT P*, C.NOME,"
+                    + " FROM PRODUTO AS P INNER JOIN CATEGORIA AS C "
+                    + "ON P.PK_PRODUTO = C.PK_CATEGORIA"
+                    + "WHERE P.TG_STATUS = 1";*/
+            
+            String SQL = "SELECT * FROM PRODUTO WHERE TG_STATUS = 1";
 
             Statement st = connection.createStatement();
             ResultSet rs = st.executeQuery(SQL);
@@ -68,12 +71,20 @@ public class ProdutoDAO {
 
                 Produto produto = new Produto();
 
-                produto.setPk_produto(rs.getInt("P.PK_PRODUTO"));
+                /*produto.setPk_produto(rs.getInt("P.PK_PRODUTO"));
                 produto.setNome(rs.getString("P.NOME"));
                 produto.setValor(rs.getString("P.VALOR"));
                 produto.setNome_categoria(rs.getString("C.NOME"));
+                produto.setBreveDescricao(rs.getString("P.BREVEDESCRICAO"));
                 produto.setQuantidade_estoque(rs.getInt("E.QUANTIDADE"));
-                produto.setStatus(rs.getInt("P.STATUS"));
+                produto.setStatus(rs.getInt("P.STATUS"));*/
+                
+                produto.setPk_produto(rs.getInt("PK_PRODUTO"));
+                produto.setNome(rs.getString("NOME"));
+                produto.setValor(rs.getString("VALOR"));
+                //produto.setNome_categoria(rs.getString("C.NOME"));
+                produto.setBreveDescricao(rs.getString("BREVEDESCRICAO"));
+                produto.setStatus(rs.getInt("STATUS"));
 
                 produtos.add(produto);
             }
@@ -122,18 +133,18 @@ public class ProdutoDAO {
         }
         return produtos;
     }
-    
+
     //Filtra os dados pelo ID
     public ArrayList<Produto> listarID(int id) {
 
-       ArrayList<Produto> produtos = new ArrayList<>();
+        ArrayList<Produto> produtos = new ArrayList<>();
 
         try {
 
             String SQL = "SELECT P.PK_PRODUTO, P.FK_CATEGORIA,P.DESCRICAO, P.BREVEDESCRICAO, P.NOME, P.VALOR, P.STATUS, C.NOME,"
                     + " E.QUANTIDADE FROM ESTOQUE AS E INNER JOIN CATEGORIA AS C "
                     + "INNER JOIN PRODUTO AS P ON P.PK_PRODUTO = E.PK_ESTOQUE"
-                    + " AND P.FK_CATEGORIA = C.PK_CATEGORIA WHERE P.PK_PRODUTO="+id+";";
+                    + " AND P.FK_CATEGORIA = C.PK_CATEGORIA WHERE P.PK_PRODUTO=" + id + ";";
 
             Statement st = connection.createStatement();
             ResultSet rs = st.executeQuery(SQL);
@@ -185,10 +196,10 @@ public class ProdutoDAO {
     public void Editar(Produto produto) {
 
         try {
-            
-            String SQL="UPDATE PRODUTO SET NOME=?, VALOR=?, STATUS=?, FK_CATEGORIA=? WHERE PK_PRODUTO=?"; 
+
+            String SQL = "UPDATE PRODUTO SET NOME=?, VALOR=?, STATUS=?, FK_CATEGORIA=? WHERE PK_PRODUTO=?";
             PreparedStatement ps = connection.prepareStatement(SQL);
-            
+
             ps.setString(1, produto.getNome());
             ps.setString(2, produto.getValor());
             ps.setInt(3, produto.getStatus());

@@ -27,8 +27,6 @@ public class Produto{
         this.quantidade_estoque = quantidade_estoque;
     }
    
-   
-
     public String getNome_categoria() {
         return nome_categoria;
     }
@@ -45,13 +43,6 @@ public class Produto{
         this.quantidade_estoque = quantidade_estoque;
     }
 
-  
-   
-   
-
-   
-   
-
     public int getStatus() {
         return status;
     }
@@ -59,8 +50,6 @@ public class Produto{
     public void setStatus(int status) {
         this.status = status;
     }
-
-
 
     public String getBreveDescricao() {
         return breveDescricao;
@@ -110,5 +99,4 @@ public class Produto{
     public void setFk_categoria(int fk_categoria) {
         this.fk_categoria = fk_categoria;
     }
-    
 }
