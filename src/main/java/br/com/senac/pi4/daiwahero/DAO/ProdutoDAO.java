@@ -61,7 +61,6 @@ public class ProdutoDAO {
                     + " FROM PRODUTO AS P INNER JOIN CATEGORIA AS C "
                     + "ON P.PK_PRODUTO = C.PK_CATEGORIA"
                     + "WHERE P.TG_STATUS = 1";*/
-            
             String SQL = "SELECT * FROM PRODUTO WHERE TG_STATUS = 1";
 
             Statement st = connection.createStatement();
@@ -78,7 +77,6 @@ public class ProdutoDAO {
                 produto.setBreveDescricao(rs.getString("P.BREVEDESCRICAO"));
                 produto.setQuantidade_estoque(rs.getInt("E.QUANTIDADE"));
                 produto.setStatus(rs.getInt("P.STATUS"));*/
-                
                 produto.setPk_produto(rs.getInt("PK_PRODUTO"));
                 produto.setNome(rs.getString("NOME"));
                 produto.setValor(rs.getString("VALOR"));
@@ -172,6 +170,38 @@ public class ProdutoDAO {
             throw new RuntimeException(e);
         }
         return produtos;
+    }
+
+    //Filtra os dados pelo ID
+    public Produto produto (int id) {
+
+        Produto produto = new Produto();
+
+        try {
+
+            String SQL = "SELECT * FROM PRODUTO WHERE TG_STATUS = 1 AND PK_PRODUTO = " + id;
+
+            Statement st = connection.createStatement();
+            ResultSet rs = st.executeQuery(SQL);
+
+            while (rs.next()) {
+                
+                produto.setPk_produto(rs.getInt("PK_PRODUTO"));
+                produto.setNome(rs.getString("NOME"));
+                produto.setValor(rs.getString("VALOR"));
+                produto.setQuantidade_estoque(rs.getInt("QUANTIDADE"));
+                produto.setBreveDescricao(rs.getString("BREVEDESCRICAO"));
+                produto.setDescricao(rs.getString("DESCRICAO"));
+                produto.setStatus(rs.getInt("STATUS"));
+            }
+            st.close();
+            connection.close();
+            rs.close();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return produto;
     }
 
     // Metodo que seta 0 para TG_STATUS inativando logicamente o elemento

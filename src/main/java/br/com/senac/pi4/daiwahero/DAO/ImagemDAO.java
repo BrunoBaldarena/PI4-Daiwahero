@@ -61,14 +61,38 @@ public class ImagemDAO {
     }
 
     public ArrayList<Imagem> listar() {
-        String SQL = "SELECT * FROM IMAGEM WHERE IMAGEMPERFIL = 1;" ;
+        String SQL = "SELECT * FROM IMAGEM WHERE IMAGEMPERFIL = 1;";
         ArrayList<Imagem> lista = new ArrayList<>();
         try {
 
             Statement st = connection.createStatement();
             ResultSet rs = st.executeQuery(SQL);
 
-            
+            while (rs.next()) {
+                Imagem imagem = new Imagem();
+                imagem.setPk_imagem(rs.getInt("PK_IMAGEM"));
+                imagem.setImagem(rs.getString("DIRETORIO"));
+                imagem.setFk_produto(rs.getInt("FK_PRODUTO"));
+                lista.add(imagem);
+            }
+            st.close();
+            connection.close();
+            rs.close();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return lista;
+    }
+
+    public ArrayList<Imagem> listarID(int id) {
+        String SQL = "SELECT * FROM IMAGEM WHERE IMAGEMPERFIL = 1 AND FK_PRODUTO = " + id + ";";
+        ArrayList<Imagem> lista = new ArrayList<>();
+        try {
+
+            Statement st = connection.createStatement();
+            ResultSet rs = st.executeQuery(SQL);
+
             while (rs.next()) {
                 Imagem imagem = new Imagem();
                 imagem.setPk_imagem(rs.getInt("PK_IMAGEM"));

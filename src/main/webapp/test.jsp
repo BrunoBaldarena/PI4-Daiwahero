@@ -16,6 +16,7 @@
     <body>
         <div class="col-lg-9">
             <div class="row">
+                
                 <c:forEach items="${produtos}" var="produtos">
                     <c:forEach items="${imagens}" var="imagens">
                         <c:if test = "${produtos.getPk_produto() == imagens.getFk_produto() }">

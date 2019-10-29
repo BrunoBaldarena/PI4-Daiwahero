@@ -36,7 +36,7 @@ public class NewServlet extends HttpServlet {
 
         ArrayList<Imagem> imagens = daoImagem.listar();
 
-        RequestDispatcher rd = request.getRequestDispatcher("/test.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("/jsp/Index.jsp");
         request.setAttribute("produtos", produtos);
         request.setAttribute("imagens", imagens);
         rd.forward(request, response);
