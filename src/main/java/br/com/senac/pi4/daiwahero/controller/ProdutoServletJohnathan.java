@@ -30,12 +30,23 @@ public class ProdutoServletJohnathan extends HttpServlet {
 
                 ImagemDAO daoImagem = new ImagemDAO();
                 ProdutoDAO dao = new ProdutoDAO();
-                
+
                 ArrayList<Imagem> imagens = daoImagem.listarID(Integer.parseInt(id));
                 Produto produto = dao.produto(Integer.parseInt(id));
 
                 request.setAttribute("produto", produto);
                 request.setAttribute("imagens", imagens);
+
+                if (produto.getQuantidade_estoque() < 1) {
+                    request.setAttribute("estoque", "Em Estoque");
+                }
+                else
+                {
+                    request.setAttribute("estoque", "Sem Estoque");
+                }
+                
+                request.setAttribute("valor", produto.getValor().replace(".", ",").toString());
+                
                 pagina = "/jsp/ProdutoDetalhe.jsp";
             }
         }

@@ -265,7 +265,7 @@
                         <button class="btn btn-outline-light" type="submit"> <img width= "20px" height= "20px" src="img\lupa.png" alt=""/></button>
                     </div>
 
-                    <a class="navbar-brand " href="login_register.html" style="position: absolute; top: 5%; right: 15%;"><img width= "30px" height= "30px" src="img\login.png" alt=""  style="right:25%; padding-right: 2%"/>Login</a>
+                    <a class="navbar-brand" href="login_register.html" style="position: absolute; top: 5%; right: 15%;"><img width= "30px" height= "30px" src="img\login.png" alt=""  style="right:25%; padding-right: 2%"/>Login</a>
                     <a href="Carrinho.html"><button class="btn" type="submit" style="position: absolute; top: 5%; right: 11%; width: 30px; height: 30px"><img  width= "20px" height= "20px" title="Carrinho" src="img\carrinho.png" alt=""/></button></a>
                 </nav>
 
@@ -280,7 +280,7 @@
                                     <span class="sr-only">(current)</span>
                                 </a>
                             </li>
-                            <li class="nav-item ">
+                            <li class="nav-item">
                                 <a class="nav-link" href="#">Celulares</a>
                             </li>
                             <li class="nav-item">
@@ -431,10 +431,10 @@
                                         <c:if test = "${produtos.getPk_produto() == imagens.getFk_produto() }">
                                             <div class="col-lg-4 col-md-6 mb-4">
                                                 <div class="card h-100">
-                                                    <a href="Produto?action=prod&id=${produtos.getPk_produto()}" name="id"><img class="card-img-top" src="${imagens.getImagem()}" alt="foto" ></a>
+                                                    <a href="ProdutoServletJohnathan?action=prod&id=${produtos.getPk_produto()}" name="id"><img class="card-img-top" src="${imagens.getImagem()}" alt="foto" ></a>
                                                     <div class="card-body">
                                                         <h4 class="card-title">
-                                                            <a  href="Produto?action=prod&id=${produtos.getPk_produto()}" name="id">${produtos.getNome()}</a>
+                                                            <a  href="ProdutoServletJohnathan?action=prod&id=${produtos.getPk_produto()}" name="id">${produtos.getNome()}</a>
                                                         </h4>
                                                         <h5>${produtos.getValor()}</h5>
                                                         <p class="card-text">${produtos.getBreveDescricao()}</p>
@@ -525,16 +525,16 @@
 
                         <!-- Instagram -->
                         <a href="https://www.instagram.com/?hl=pt-br"><img width= "40px" height= "40px" src="img\insta.png" title="Instagram" alt=""/></a>
-                        <i class="fab -"></i>
-                        </a>
+                        <i class="fab-"></i>
+
                         <!-- Facebook -->
                         <a href="https://pt-br.facebook.com/"><img width= "50px" height= "50px" src="img\face.png" title="Facebook" alt=""/></a>
                         <i class="fab fa-facebook-f"></i>
-                        </a>
+
                         <!-- Twitter -->
                         <a href="https://twitter.com/"><img width= "50px" height= "50px" src="img\twitter.png" title="Twitter" alt=""/></a>
                         <i class="fab fa-twitter"></i>
-                        </a>
+
 
                     </div>
 

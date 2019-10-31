@@ -138,19 +138,19 @@
                     <!-- /.col-lg-9 -->            
                 </div>
                 <div class="col-lg-6 col-md-6 mb-4" style="margin-top: 1.5%">
-                    <p class="text-body h2">Smartphone Samsung Galaxy S8+ Dual Chip - Prata</p>
+                    <p class="text-body h2">${produto.getNome()}</p>
 
-                    <a>Smartphone Samsung Galaxy S8+ Dual Chip Android 7.0 Tela 6.2" Octa-Core 2.3 GHz 64GB Câmera 12MP - Prata</a>
+                    <a>${produto.getBreveDescricao()}</a>
 
                     <div style="margin-top: 5%;" class="row">
                         <div class="col-md-6">  
-                            <p class="text-danger" >Em Estoque</p>
+                            <p class="text-danger" >${estoque}</p>
                         </div>
                         <div class="col-md-6">
-                            <p class="h4" style="position:absolute; left: 50%;">R$ 4.026,94</p>
+                            <p class="h4" style="position:absolute; left: 50%;">R$ ${valor}</p>
                         </div>
                     </div>       
-                    <p class="h6" style="position:absolute; left: 50%;">12x de <b>R$335.58</b> sem juros no cartão</P>
+                    <p class="h6" style="position:absolute; left: 50%;">12x de <b>R$ ${produto.getValor()/12}</b> sem juros no cartão</P>
                     <div class="row" style="margin-top: 25%">
                         <div class="col">
                             <label for="usr" >Quantidade: <a style="color: red">*</a></ label>
