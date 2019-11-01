@@ -103,26 +103,18 @@
             <div class="row"> 
                 <div class="col-lg-5" >
                     <div id="carouselExampleIndicators" class="carousel slide my-4" data-ride="carousel">
-                        <ol class="carousel-indicators">
-                            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-                            <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
-                        </ol>
-                        <div class="carousel-inner" role="listbox" style="margin-left: 5%;">
-                            <div class="carousel-item active">
-                                <img src="img/img01.jpg" style="width: 400px; right: 300px;" alt="First slide">
+                        <c:set var="count" value="0" scope="page"/>		
+                        <c:forEach items="${imagens}" var="imagens">
+                            <ol class="carousel-indicators">
+                                <li data-target="#carouselExampleIndicators" data-slide-to="${count}" class="active"></li>
+                            </ol>
+                            <div class="carousel-inner" role="listbox" style="margin-left: 5%;">
+                                <div class="carousel-item">
+                                    <img src="${imagens.getImagem()}" style="width: 400px; right: 300px;">
+                                </div>
                             </div>
-                            <div class="carousel-item">
-                                <img src="img/img01-samsung-prata_01.jpg" style="width: 400px; right: 300px;" alt="Second slide">
-                            </div>
-                            <div class="carousel-item">
-                                <img src="img/img01-samsung-prata_02.jpg" style="width: 400px; right: 300px;" alt="Third slide">
-                            </div>
-                            <div class="carousel-item">
-                                <img src="img/img01-samsung-prata_03.jpg" style="width: 400px; right: 300px;" style="width: 400px; right: 300px;" alt="Third slide">
-                            </div>
-                        </div>
+                            <c:set var="count" value="${count+1}" scope="page"/>
+                        </c:forEach>
                         <button class="carousel-control-prev" href="#carouselExampleIndicators" type="button" data-slide="prev" style="; height: 10%; width: 8%; margin-top: 40%">
                             <span class="glyphicon glyphicon-chevron-right" aria-hidden="false"></span>
                             <span class="sr-only">Previous</span>
@@ -150,7 +142,7 @@
                             <p class="h4" style="position:absolute; left: 50%;">R$ ${valor}</p>
                         </div>
                     </div>       
-                    <p class="h6" style="position:absolute; left: 50%;">12x de <b>R$ ${produto.getValor()/12}</b> sem juros no cartão</P>
+                    <p class="h6" style="position:absolute; left: 50%;">12x de <b>R$ ${String.format("%.2f",produto.getValor()/12).replace(".",",")}</b> sem juros no cartão</P>
                     <div class="row" style="margin-top: 25%">
                         <div class="col">
                             <label for="usr" >Quantidade: <a style="color: red">*</a></ label>
@@ -346,10 +338,10 @@
 
                         <!-- Grid column -->
                         <div class="container col-md-2 col-lg-2 text-center mx-auto my-4" style="float: left;  padding-rigth: 1%;">
-                            
+
                             <!-- Instagram -->
                             <a href="https://www.instagram.com/?hl=pt-br"><img width= "40px" height= "40px" src="img\insta.png" title="Instagram" alt=""/></a>
-                            <i class="fab -"></i>
+                            <i class="fab"></i>
                             </a>
                             <!-- Facebook -->
                             <a href="https://pt-br.facebook.com/"><img width= "50px" height= "50px" src="img\face.png" title="Facebook" alt=""/></a>
@@ -373,13 +365,13 @@
 
                 </div>
                 <!-- Grid row -->
-    </footer>
+            </footer>
 
-    <!-- Bootstrap core JavaScript -->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+            <!-- Bootstrap core JavaScript -->
+            <script src="vendor/jquery/jquery.min.js"></script>
+            <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-</body>
+    </body>
 
 </html>
 

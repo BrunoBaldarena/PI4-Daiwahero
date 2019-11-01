@@ -15,8 +15,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(name = "ProdutoServletJohnathan", urlPatterns = {"/ProdutoServletJohnathan"})
-public class ProdutoServletJohnathan extends HttpServlet {
+@WebServlet(name = "ProdutoServletDetalhe", urlPatterns = {"/ProdutoServletDetalhe"})
+public class ProdutoServletDetalhe extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -37,7 +37,7 @@ public class ProdutoServletJohnathan extends HttpServlet {
                 request.setAttribute("produto", produto);
                 request.setAttribute("imagens", imagens);
 
-                if (produto.getQuantidade_estoque() < 1) {
+                if (produto.getQuantidade_estoque() > 1) {
                     request.setAttribute("estoque", "Em Estoque");
                 }
                 else
@@ -46,6 +46,7 @@ public class ProdutoServletJohnathan extends HttpServlet {
                 }
                 
                 request.setAttribute("valor", produto.getValor().replace(".", ",").toString());
+                
                 
                 pagina = "/jsp/ProdutoDetalhe.jsp";
             }

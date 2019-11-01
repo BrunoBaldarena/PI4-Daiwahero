@@ -431,10 +431,10 @@
                                         <c:if test = "${produtos.getPk_produto() == imagens.getFk_produto() }">
                                             <div class="col-lg-4 col-md-6 mb-4">
                                                 <div class="card h-100">
-                                                    <a href="ProdutoServletJohnathan?action=prod&id=${produtos.getPk_produto()}" name="id"><img class="card-img-top" src="${imagens.getImagem()}" alt="foto" ></a>
+                                                    <a href="ProdutoServletDetalhe?action=prod&id=${produtos.getPk_produto()}" name="id"><img class="card-img-top" src="${imagens.getImagem()}" alt="foto" ></a>
                                                     <div class="card-body">
                                                         <h4 class="card-title">
-                                                            <a  href="ProdutoServletJohnathan?action=prod&id=${produtos.getPk_produto()}" name="id">${produtos.getNome()}</a>
+                                                            <a  href="ProdutoServletDetalhe?action=prod&id=${produtos.getPk_produto()}" name="id">${produtos.getNome()}</a>
                                                         </h4>
                                                         <h5>${produtos.getValor()}</h5>
                                                         <p class="card-text">${produtos.getBreveDescricao()}</p>
