@@ -1,5 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -436,7 +437,8 @@
                                                         <h4 class="card-title">
                                                             <a  href="ProdutoServletDetalhe?action=prod&id=${produtos.getPk_produto()}" name="id">${produtos.getNome()}</a>
                                                         </h4>
-                                                        <h5>${produtos.getValor()}</h5>
+                                                        <c:set var = "valor" value = "${fn:replace(produtos.getValor(), '.', ',')}" />
+                                                        <h5>${valor}</h5>
                                                         <p class="card-text">${produtos.getBreveDescricao()}</p>
                                                     </div>
                                                     <div class="card-footer">

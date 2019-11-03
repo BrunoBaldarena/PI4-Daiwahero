@@ -86,7 +86,7 @@ public class ImagemDAO {
     }
 
     public ArrayList<Imagem> listarID(int id) {
-        String SQL = "SELECT * FROM IMAGEM WHERE IMAGEMPERFIL = 1 AND FK_PRODUTO = " + id + ";";
+        String SQL = "SELECT * FROM IMAGEM WHERE FK_PRODUTO = " + id + ";";
         ArrayList<Imagem> lista = new ArrayList<>();
         try {
 

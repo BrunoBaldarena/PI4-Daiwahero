@@ -39,6 +39,7 @@ public class NewServlet extends HttpServlet {
         RequestDispatcher rd = request.getRequestDispatcher("/jsp/Index.jsp");
         request.setAttribute("produtos", produtos);
         request.setAttribute("imagens", imagens);
+        
         rd.forward(request, response);
     }
 
